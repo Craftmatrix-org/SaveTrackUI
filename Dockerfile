@@ -1,20 +1,20 @@
-FROM node:latest as build
+FROM node as build
 
 RUN npm install -g pnpm
 
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml ./
+COPY . .
 
 RUN pnpm install
 
-COPY . .
+RUN pnpm run build
 
-RUN pnpm build
-
-FROM nginx:latest
+FROM nginx
 
 COPY --from=build /app/dist /usr/share/nginx/html
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 EXPOSE 80
 
