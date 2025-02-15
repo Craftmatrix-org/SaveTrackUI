@@ -1,9 +1,15 @@
-import { Flex, Text, Button } from "@radix-ui/themes";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { GatePage } from "./pages/Gate/page";
 
 function App() {
   return (
     <>
-      <Button>Hey</Button>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<GatePage />} />
+          <Route path="/env" element={<div>{import.meta.env.VITE_ENV}</div>} />
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }
