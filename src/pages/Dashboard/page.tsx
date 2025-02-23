@@ -15,7 +15,7 @@ export const Dashboard = () => {
     const fetchToken = async () => {
       try {
         const response = await axios.post(
-          `http://localhost:5184/api/v1/UserToken/${email}`,
+          `${import.meta.env.VITE_API_URL}/api/v1/UserToken/${email}`,
         );
         document.cookie = `token=${response.data}; path=/`;
       } catch (error) {
