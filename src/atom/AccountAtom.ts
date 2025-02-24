@@ -1,16 +1,7 @@
 import axios from "axios";
 import { atom } from "jotai";
 import { getTokenDataFromCookie } from "../api/token";
-
-type TypePayload = {
-  id: string;
-  userID: string;
-  label: string;
-  description: string;
-  initValue: number;
-  createdAt: string;
-  updatedAt: string;
-};
+import { TypePayload } from "../types/AccountType";
 
 // Atom to store account data
 export const AtomAccount = atom<TypePayload[]>([]);
