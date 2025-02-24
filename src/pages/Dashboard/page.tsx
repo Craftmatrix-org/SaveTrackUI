@@ -2,14 +2,11 @@ import { useAtom } from "jotai";
 import { AtomEmail } from "../../atom/GateAtom";
 import { useEffect } from "react";
 import axios from "axios";
+import { Box, Tabs, Text } from "@radix-ui/themes";
+import { Account } from "./accounts/page";
 
 export const Dashboard = () => {
   const [email] = useAtom(AtomEmail);
-
-  // must be all in one API
-  // check email if exist in database
-  // if true generate token
-  // else register, and then post the new email, then generate token
 
   useEffect(() => {
     const fetchToken = async () => {
@@ -30,8 +27,27 @@ export const Dashboard = () => {
 
   return (
     <>
-      <h1>Dashboard</h1>
-      <p>Email: {email}</p>
+      <Tabs.Root defaultValue="transaction">
+        <Tabs.List>
+          <Tabs.Trigger value="transaction">Transaction</Tabs.Trigger>
+          <Tabs.Trigger value="category">Category</Tabs.Trigger>
+          <Tabs.Trigger value="account">Account</Tabs.Trigger>
+        </Tabs.List>
+
+        <Box pt="3">
+          <Tabs.Content value="transaction">
+            <Text size="2">Manage your transactions.</Text>
+          </Tabs.Content>
+
+          <Tabs.Content value="category">
+            <Text size="2">Manage your categories.</Text>
+          </Tabs.Content>
+
+          <Tabs.Content value="account">
+            <Account />
+          </Tabs.Content>
+        </Box>
+      </Tabs.Root>
     </>
   );
 };
