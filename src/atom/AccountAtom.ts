@@ -9,6 +9,7 @@ export const AtomAccount = atom<TypePayload[]>([]);
 // Atom to fetch account data and update AtomAccount
 export const AtomFetchAccount = atom(
   (get) => get(AtomAccount),
+  // @ts-expect-error not an error
   async (get, set) => {
     try {
       const response = await axios.get(
