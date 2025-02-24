@@ -52,7 +52,7 @@ export const Add = () => {
               Label
             </Text>
             <TextField.Root
-              placeholder="Enter your full name"
+              placeholder="Enter label"
               value={label}
               onChange={(e) => setLabel(e.target.value)}
             />
@@ -62,7 +62,7 @@ export const Add = () => {
               Description
             </Text>
             <TextField.Root
-              placeholder="Enter your email"
+              placeholder="Enter description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
