@@ -1,39 +1,36 @@
-import {
-  Avatar,
-  Badge,
-  Box,
-  Card,
-  Flex,
-  Text,
-  TextField,
-} from "@radix-ui/themes";
+import { Avatar, Box, Card, Flex, Text, TextField } from "@radix-ui/themes";
 import { Add } from "./crud/add";
 import { useAtom, useSetAtom } from "jotai";
-import { AtomCategory, AtomFetchCategory } from "../../../atom/CategoryAtom";
+import {
+  AtomFetchTransaction,
+  AtomTransaction,
+} from "../../../atom/TransactionAtom";
 import { getTokenDataFromCookie } from "../../../api/token";
 import { useEffect } from "react";
 import { Edit } from "./crud/edit";
 import { Delete } from "./crud/delete";
 
-export const Categories = () => {
-  const [category] = useAtom(AtomCategory);
-  const fetchCategory = useSetAtom(AtomFetchCategory);
+export const Transaction = () => {
+  const [transactions] = useAtom(AtomTransaction);
+  const fetchTransactions = useSetAtom(AtomFetchTransaction);
 
   const uid = getTokenDataFromCookie()?.uid;
 
   useEffect(() => {
-    fetchCategory();
+    fetchTransactions();
   }, [uid]);
-
   return (
     <div>
       <div className="flex flex-col gap-2 w-full p-1">
         <div className="m-2 flex flex-row w-full sm:w-[60%] mx-auto gap-1">
-          <TextField.Root placeholder="Search for Category" className="grow" />
+          <TextField.Root
+            placeholder="Search for Transaction"
+            className="grow"
+          />
           <Add />
         </div>
-        {category.map((categoryItem) => (
-          <Box key={categoryItem.id} className="mx-auto w-full sm:w-[60%]">
+        {transactions.map((transactionItem) => (
+          <Box key={transactionItem.id} className="mx-auto w-full sm:w-[60%]">
             <Card>
               <Flex gap="3" align="center">
                 <Avatar
@@ -44,19 +41,16 @@ export const Categories = () => {
                 />
                 <Box>
                   <Text as="div" size="2" weight="bold">
-                    {categoryItem.name.toString()} |{" "}
-                    <Badge color={categoryItem.isPositive ? "blue" : "red"}>
-                      {categoryItem.isPositive ? "deposit" : "withdraw"}
-                    </Badge>
+                    {transactionItem.name.toString()} | {transactionItem.amount}
                   </Text>
                   <Text as="div" size="2" color="gray">
-                    {categoryItem.description}
+                    {transactionItem.description}
                   </Text>
                 </Box>
 
                 <div className="flex flex-row items-center gap-1 ml-auto">
                   <Text as="div" size="2" color="gray">
-                    {new Date(categoryItem.updatedAt).toLocaleDateString(
+                    {new Date(transactionItem.updatedAt).toLocaleDateString(
                       "en-US",
                       {
                         month: "short",
@@ -66,8 +60,8 @@ export const Categories = () => {
                     )}{" "}
                   </Text>
 
-                  <Edit categoryId={categoryItem.id} />
-                  <Delete categoryId={categoryItem.id} />
+                  <Edit transactionId={transactionItem.id} />
+                  <Delete transactionId={transactionItem.id} />
                 </div>
               </Flex>
             </Card>

@@ -19,13 +19,13 @@ export const Account = () => {
 
   return (
     <div>
-      <div className="flex flex-col gap-2 w-full">
-        <div className="m-2 flex flex-row w-[60%] mx-auto gap-1">
+      <div className="flex flex-col gap-2 w-full p-1">
+        <div className="m-2 flex flex-row w-full sm:w-[60%] mx-auto gap-1">
           <TextField.Root placeholder="Search for Account" className="grow" />
           <Add />
         </div>
         {account.map((account) => (
-          <Box key={account.id} className="mx-auto w-[60%]">
+          <Box key={account.id} className="mx-auto w-full sm:w-[60%]">
             <Card>
               <Flex gap="3" align="center">
                 <Avatar

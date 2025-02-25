@@ -2,9 +2,10 @@ import { useAtom } from "jotai";
 import { AtomEmail } from "../../atom/GateAtom";
 import { useEffect } from "react";
 import axios from "axios";
-import { Box, Tabs, Text } from "@radix-ui/themes";
+import { Box, Tabs } from "@radix-ui/themes";
 import { Account } from "./accounts/page";
 import { Categories } from "./categories/page";
+import { Transaction } from "./transactions/page";
 
 export const Dashboard = () => {
   const [email] = useAtom(AtomEmail);
@@ -37,7 +38,7 @@ export const Dashboard = () => {
 
         <Box pt="3">
           <Tabs.Content value="transaction">
-            <Text size="2">Manage your transactions.</Text>
+            <Transaction />
           </Tabs.Content>
 
           <Tabs.Content value="category">

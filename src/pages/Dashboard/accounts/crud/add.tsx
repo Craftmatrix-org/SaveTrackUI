@@ -53,7 +53,6 @@ export const Add = () => {
             </Text>
             <TextField.Root
               placeholder="Enter label"
-              value={label}
               onChange={(e) => setLabel(e.target.value)}
             />
           </label>
@@ -63,7 +62,6 @@ export const Add = () => {
             </Text>
             <TextField.Root
               placeholder="Enter description"
-              value={description}
               onChange={(e) => setDescription(e.target.value)}
             />
           </label>
@@ -74,7 +72,6 @@ export const Add = () => {
             <TextField.Root
               type="number"
               placeholder="Enter initial value"
-              value={initValue}
               onChange={(e) => setInitValue(Number(e.target.value))}
             />
           </label>
