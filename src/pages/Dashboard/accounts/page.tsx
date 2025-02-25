@@ -13,15 +13,9 @@ export const Account = () => {
 
   const uid = getTokenDataFromCookie()?.uid;
 
-  const fetchData = async () => {
-    if (uid) {
-      await fetchAccount();
-    }
-  };
-
   useEffect(() => {
-    fetchData();
-  }, [fetchAccount]);
+    fetchAccount();
+  }, [uid]);
 
   return (
     <div>
@@ -36,7 +30,8 @@ export const Account = () => {
               <Flex gap="3" align="center">
                 <Avatar
                   size="3"
-                  src="https://images.unsplash.com/photo-1607346256330-dee7af15f7c5?&w=64&h=64&dpr=2&q=70&crop=focalpoint&fp-x=0.67&fp-y=0.5&fp-z=1.4&fit=crop"
+                  src="https://assets.techrepublic.com/uploads/2021/08/tux-new.jpg"
+                  // src="https://images.unsplash.com/photo-1607346256330-dee7af15f7c5?&w=64&h=64&dpr=2&q=70&crop=focalpoint&fp-x=0.67&fp-y=0.5&fp-z=1.4&fit=crop"
                   radius="full"
                   fallback="T"
                 />
