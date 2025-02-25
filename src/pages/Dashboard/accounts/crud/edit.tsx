@@ -59,11 +59,11 @@ export const Edit: React.FC<EditProps> = ({ accountId }) => {
   return (
     <Dialog.Root>
       <Dialog.Trigger>
-        <Button>Edit Account</Button>
+        <Button>Edit</Button>
       </Dialog.Trigger>
 
       <Dialog.Content maxWidth="450px">
-        <Dialog.Title>Edit Account</Dialog.Title>
+        <Dialog.Title>Edit</Dialog.Title>
         <Dialog.Description size="2" mb="4">
           Manage your financial accounts.
         </Dialog.Description>

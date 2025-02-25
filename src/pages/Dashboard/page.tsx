@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import axios from "axios";
 import { Box, Tabs, Text } from "@radix-ui/themes";
 import { Account } from "./accounts/page";
+import { Categories } from "./categories/page";
 
 export const Dashboard = () => {
   const [email] = useAtom(AtomEmail);
@@ -40,7 +41,7 @@ export const Dashboard = () => {
           </Tabs.Content>
 
           <Tabs.Content value="category">
-            <Text size="2">Manage your categories.</Text>
+            <Categories />
           </Tabs.Content>
 
           <Tabs.Content value="account">
