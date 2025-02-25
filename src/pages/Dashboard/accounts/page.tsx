@@ -1,19 +1,11 @@
-import {
-  Avatar,
-  Box,
-  Button,
-  Card,
-  Flex,
-  Text,
-  TextField,
-} from "@radix-ui/themes";
+import { Avatar, Box, Card, Flex, Text, TextField } from "@radix-ui/themes";
 import { Add } from "./crud/add";
 import { useEffect } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { AtomAccount, AtomFetchAccount } from "../../../atom/AccountAtom";
 import { getTokenDataFromCookie } from "../../../api/token";
 import { Edit } from "./crud/edit";
-import { Search } from "lucide-react";
+// import { Search } from "lucide-react";
 import { Delete } from "./crud/delete";
 export const Account = () => {
   const [account] = useAtom(AtomAccount);
