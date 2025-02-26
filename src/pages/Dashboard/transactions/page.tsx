@@ -15,19 +15,27 @@ import {
   AtomTransaction,
 } from "../../../atom/TransactionAtom";
 import { getTokenDataFromCookie } from "../../../api/token";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Edit } from "./crud/edit";
 import { Delete } from "./crud/delete";
 
 export const Transaction = () => {
   const [transactions] = useAtom(AtomTransaction);
   const fetchTransactions = useSetAtom(AtomFetchTransaction);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const uid = getTokenDataFromCookie()?.uid;
 
   useEffect(() => {
     fetchTransactions();
-  }, [uid]);
+  }, [uid, fetchTransactions]);
+
+  const filteredTransactions = transactions.filter((transactionItem) =>
+    transactionItem.description
+      .toLowerCase()
+      .includes(searchTerm.toLowerCase()),
+  );
+
   return (
     <div>
       <div className="flex flex-col gap-2 w-full p-1">
@@ -35,11 +43,13 @@ export const Transaction = () => {
           <TextField.Root
             placeholder="Search for Transaction"
             className="grow"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
           />
           {/* <Button>Transfer</Button> */}
           <Add />
         </div>
-        {transactions.map((transactionItem) => (
+        {filteredTransactions.map((transactionItem) => (
           <Box key={transactionItem.id} className="mx-auto w-full sm:w-[60%]">
             <Card>
               <Flex gap="3" align="center">

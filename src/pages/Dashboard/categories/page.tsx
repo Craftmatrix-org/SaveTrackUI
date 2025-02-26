@@ -11,28 +11,38 @@ import { Add } from "./crud/add";
 import { useAtom, useSetAtom } from "jotai";
 import { AtomCategory, AtomFetchCategory } from "../../../atom/CategoryAtom";
 import { getTokenDataFromCookie } from "../../../api/token";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Edit } from "./crud/edit";
 import { Delete } from "./crud/delete";
 
 export const Categories = () => {
   const [category] = useAtom(AtomCategory);
   const fetchCategory = useSetAtom(AtomFetchCategory);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const uid = getTokenDataFromCookie()?.uid;
 
   useEffect(() => {
     fetchCategory();
-  }, [uid]);
+  }, [uid, fetchCategory]);
+
+  const filteredCategories = category.filter((categoryItem) =>
+    categoryItem.name.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
 
   return (
     <div>
       <div className="flex flex-col gap-2 w-full p-1">
         <div className="m-2 flex flex-row w-full sm:w-[60%] mx-auto gap-1">
-          <TextField.Root placeholder="Search for Category" className="grow" />
+          <TextField.Root
+            placeholder="Search for Category"
+            className="grow"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
           <Add />
         </div>
-        {category.map((categoryItem) => (
+        {filteredCategories.map((categoryItem) => (
           <Box key={categoryItem.id} className="mx-auto w-full sm:w-[60%]">
             <Card>
               <Flex gap="3" align="center">

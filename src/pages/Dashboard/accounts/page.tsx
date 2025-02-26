@@ -8,7 +8,7 @@ import {
   TextField,
 } from "@radix-ui/themes";
 import { Add } from "./crud/add";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAtom, useSetAtom } from "jotai";
 import { AtomAccount, AtomFetchAccount } from "../../../atom/AccountAtom";
 import { getTokenDataFromCookie } from "../../../api/token";
@@ -18,21 +18,31 @@ import { Delete } from "./crud/delete";
 export const Account = () => {
   const [account] = useAtom(AtomAccount);
   const fetchAccount = useSetAtom(AtomFetchAccount);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const uid = getTokenDataFromCookie()?.uid;
 
   useEffect(() => {
     fetchAccount();
-  }, [uid]);
+  }, [fetchAccount, uid]);
+
+  const filteredAccounts = account.filter((acc) =>
+    acc.label.toLowerCase().includes(searchTerm.toLowerCase()),
+  );
 
   return (
     <div>
       <div className="flex flex-col gap-2 w-full p-1">
         <div className="m-2 flex flex-row w-full sm:w-[60%] mx-auto gap-1">
-          <TextField.Root placeholder="Search for Account" className="grow" />
+          <TextField.Root
+            placeholder="Search for Account"
+            className="grow"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
           <Add />
         </div>
-        {account.map((account) => (
+        {filteredAccounts.map((account) => (
           <Box key={account.id} className="mx-auto w-full sm:w-[60%]">
             <Card>
               <Flex gap="3" align="center">
