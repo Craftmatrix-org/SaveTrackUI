@@ -21,16 +21,7 @@ export const GatePage = () => {
   useEffect(() => {
     const tokenData = getTokenDataFromCookie();
     if (tokenData) {
-      fetch(
-        `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenData}`,
-      )
-        .then((response) => response.json())
-        .then((data) => {
-          setEmail(data.email);
-          console.log("Email:", data.email);
-          nav("/dashboard");
-        })
-        .catch((error) => console.error("Error fetching email:", error));
+      nav("/dashboard");
     }
   }, [nav, setEmail]);
 
