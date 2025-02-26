@@ -8,4 +8,5 @@ export type TransactionType = {
   categoryID: string;
   createdAt: string;
   updatedAt: string;
+  isPositive: boolean;
 };

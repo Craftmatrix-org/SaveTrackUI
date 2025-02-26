@@ -1,5 +1,6 @@
 import {
   Avatar,
+  Badge,
   Box,
   Button,
   Card,
@@ -50,7 +51,9 @@ export const Transaction = () => {
                 />
                 <Box>
                   <Text as="div" size="2" weight="bold">
-                    {transactionItem.amount}
+                    <Badge color={transactionItem.isPositive ? "green" : "red"}>
+                      ₱{transactionItem.amount}
+                    </Badge>
                   </Text>
                   <Text as="div" size="2" color="gray">
                     {transactionItem.description}

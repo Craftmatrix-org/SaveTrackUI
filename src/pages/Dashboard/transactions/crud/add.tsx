@@ -17,7 +17,6 @@ import { AtomFetchCategory, AtomCategory } from "../../../../atom/CategoryAtom";
 
 export type TransactionType = {
   id: string;
-  name: string;
   description: string;
   userID: string;
   amount: number;
@@ -35,6 +34,8 @@ export const Add = () => {
   const [categories] = useAtom(AtomCategory);
 
   useEffect(() => {
+    console.log(fetchAccount);
+    console.log(fetchCategory);
     fetchAccount();
     fetchCategory();
   }, [fetchAccount, fetchCategory]);
@@ -43,7 +44,6 @@ export const Add = () => {
   const [transaction, setTransaction] = useState<TransactionType>({
     id: uid,
     userID: uid,
-    name: "",
     description: "",
     amount: 0,
     accountID: accounts[0]?.id ?? "",
@@ -51,6 +51,21 @@ export const Add = () => {
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   });
+
+  useEffect(() => {
+    if (accounts.length > 0 && !transaction.accountID) {
+      setTransaction((prev) => ({
+        ...prev,
+        accountID: accounts[0].id,
+      }));
+    }
+    if (categories.length > 0 && !transaction.categoryID) {
+      setTransaction((prev) => ({
+        ...prev,
+        categoryID: categories[0].id,
+      }));
+    }
+  }, [accounts, categories]);
 
   const handleSave = async () => {
     try {
@@ -78,18 +93,6 @@ export const Add = () => {
         </Dialog.Description>
 
         <Flex direction="column" gap="3">
-          {/* <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Name
-            </Text>
-            <TextField.Root
-              placeholder="Enter transaction name"
-              onChange={(e) =>
-                setTransaction({ ...transaction, name: e.target.value })
-              }
-            />
-          </label> */}
-
           <label>
             <Text as="div" size="2" mb="1" weight="bold">
               Account ID

@@ -16,7 +16,6 @@ import { AtomFetchCategory, AtomCategory } from "../../../../atom/CategoryAtom";
 
 export type TransactionType = {
   id: string;
-  name: string;
   description: string;
   userID: string;
   amount: number;
@@ -42,7 +41,6 @@ export const Edit = ({ transactionId }: { transactionId: string }) => {
   const [transaction, setTransaction] = useState<TransactionType>({
     id: uid,
     userID: uid,
-    name: "",
     description: "",
     amount: 0,
     accountID: "",
@@ -95,46 +93,6 @@ export const Edit = ({ transactionId }: { transactionId: string }) => {
         <Flex direction="column" gap="3">
           <label>
             <Text as="div" size="2" mb="1" weight="bold">
-              Name
-            </Text>
-            <TextField.Root
-              placeholder="Enter transaction name"
-              value={transaction.name}
-              onChange={(e) =>
-                setTransaction({ ...transaction, name: e.target.value })
-              }
-            />
-          </label>
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Description
-            </Text>
-            <TextField.Root
-              placeholder="Enter transaction description"
-              value={transaction.description}
-              onChange={(e) =>
-                setTransaction({ ...transaction, description: e.target.value })
-              }
-            />
-          </label>
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Amount
-            </Text>
-            <TextField.Root
-              placeholder="Enter transaction amount"
-              type="number"
-              value={transaction.amount}
-              onChange={(e) =>
-                setTransaction({
-                  ...transaction,
-                  amount: parseFloat(e.target.value),
-                })
-              }
-            />
-          </label>
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
               Account ID
             </Text>
             <Select.Root
@@ -178,6 +136,34 @@ export const Edit = ({ transactionId }: { transactionId: string }) => {
                 </Select.Group>
               </Select.Content>
             </Select.Root>
+          </label>
+          <label>
+            <Text as="div" size="2" mb="1" weight="bold">
+              Description
+            </Text>
+            <TextField.Root
+              placeholder="Enter transaction description"
+              value={transaction.description}
+              onChange={(e) =>
+                setTransaction({ ...transaction, description: e.target.value })
+              }
+            />
+          </label>
+          <label>
+            <Text as="div" size="2" mb="1" weight="bold">
+              Amount
+            </Text>
+            <TextField.Root
+              placeholder="Enter transaction amount"
+              type="number"
+              value={transaction.amount}
+              onChange={(e) =>
+                setTransaction({
+                  ...transaction,
+                  amount: parseFloat(e.target.value),
+                })
+              }
+            />
           </label>
         </Flex>
 
