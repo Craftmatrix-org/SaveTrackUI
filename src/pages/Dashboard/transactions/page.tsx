@@ -1,4 +1,12 @@
-import { Avatar, Box, Card, Flex, Text, TextField } from "@radix-ui/themes";
+import {
+  Avatar,
+  Box,
+  Button,
+  Card,
+  Flex,
+  Text,
+  TextField,
+} from "@radix-ui/themes";
 import { Add } from "./crud/add";
 import { useAtom, useSetAtom } from "jotai";
 import {
@@ -27,6 +35,7 @@ export const Transaction = () => {
             placeholder="Search for Transaction"
             className="grow"
           />
+          <Button>Transfer</Button>
           <Add />
         </div>
         {transactions.map((transactionItem) => (
@@ -41,7 +50,7 @@ export const Transaction = () => {
                 />
                 <Box>
                   <Text as="div" size="2" weight="bold">
-                    {transactionItem.name.toString()} | {transactionItem.amount}
+                    {transactionItem.amount}
                   </Text>
                   <Text as="div" size="2" color="gray">
                     {transactionItem.description}

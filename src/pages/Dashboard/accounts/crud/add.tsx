@@ -37,7 +37,7 @@ export const Add = () => {
   return (
     <Dialog.Root>
       <Dialog.Trigger>
-        <Button>Add Account</Button>
+        <Button>Add</Button>
       </Dialog.Trigger>
 
       <Dialog.Content maxWidth="450px">

@@ -5,6 +5,7 @@ import {
   Text,
   TextField,
   Select,
+  TextArea,
 } from "@radix-ui/themes";
 import { useState, useEffect } from "react";
 import { getTokenDataFromCookie } from "../../../../api/token";
@@ -77,7 +78,7 @@ export const Add = () => {
         </Dialog.Description>
 
         <Flex direction="column" gap="3">
-          <label>
+          {/* <label>
             <Text as="div" size="2" mb="1" weight="bold">
               Name
             </Text>
@@ -87,33 +88,8 @@ export const Add = () => {
                 setTransaction({ ...transaction, name: e.target.value })
               }
             />
-          </label>
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Description
-            </Text>
-            <TextField.Root
-              placeholder="Enter transaction description"
-              onChange={(e) =>
-                setTransaction({ ...transaction, description: e.target.value })
-              }
-            />
-          </label>
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Amount
-            </Text>
-            <TextField.Root
-              placeholder="Enter transaction amount"
-              type="number"
-              onChange={(e) =>
-                setTransaction({
-                  ...transaction,
-                  amount: parseFloat(e.target.value),
-                })
-              }
-            />
-          </label>
+          </label> */}
+
           <label>
             <Text as="div" size="2" mb="1" weight="bold">
               Account ID
@@ -159,6 +135,33 @@ export const Add = () => {
                 </Select.Group>
               </Select.Content>
             </Select.Root>
+          </label>
+
+          <label>
+            <Text as="div" size="2" mb="1" weight="bold">
+              Description
+            </Text>
+            <TextArea
+              placeholder="Enter transaction description"
+              onChange={(e) =>
+                setTransaction({ ...transaction, description: e.target.value })
+              }
+            />
+          </label>
+          <label>
+            <Text as="div" size="2" mb="1" weight="bold">
+              Amount
+            </Text>
+            <TextField.Root
+              placeholder="Enter transaction amount"
+              type="number"
+              onChange={(e) =>
+                setTransaction({
+                  ...transaction,
+                  amount: parseFloat(e.target.value),
+                })
+              }
+            />
           </label>
         </Flex>
 
