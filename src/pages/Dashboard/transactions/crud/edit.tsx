@@ -56,7 +56,7 @@ export const Edit = ({ transactionId }: { transactionId: string }) => {
           `${import.meta.env.VITE_API_URL}/api/v1/Transaction/specific/${transactionId}`,
         );
         setTransaction(response.data[0]);
-        console.log(response.data[0]);
+        // console.log(response.data[0]);
       } catch (error) {
         console.error("Error fetching transaction details:", error);
       }

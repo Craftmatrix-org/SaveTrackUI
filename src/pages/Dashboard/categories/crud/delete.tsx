@@ -13,10 +13,10 @@ export const Delete: React.FC<EditProps> = ({ categoryId }) => {
 
   const fetchCategoryData = async () => {
     try {
-      const response = await axios.get(
+      await axios.get(
         `${import.meta.env.VITE_API_URL}/api/v1/Category/specific/${categoryId}`,
       );
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
       console.error("Error fetching category data:", error);
     }

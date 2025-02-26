@@ -13,10 +13,10 @@ export const Delete: React.FC<EditProps> = ({ transactionId }) => {
 
   const fetchTransactionData = async () => {
     try {
-      const response = await axios.get(
+      await axios.get(
         `${import.meta.env.VITE_API_URL}/api/v1/Transaction/specific/${transactionId}`,
       );
-      console.log(response.data);
+      // console.log(response.data);
     } catch (error) {
       console.error("Error fetching transaction data:", error);
     }

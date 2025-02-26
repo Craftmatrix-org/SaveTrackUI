@@ -34,8 +34,8 @@ export const Add = () => {
   const [categories] = useAtom(AtomCategory);
 
   useEffect(() => {
-    console.log(fetchAccount);
-    console.log(fetchCategory);
+    // console.log(fetchAccount);
+    // console.log(fetchCategory);
     fetchAccount();
     fetchCategory();
   }, [fetchAccount, fetchCategory]);
@@ -69,11 +69,11 @@ export const Add = () => {
 
   const handleSave = async () => {
     try {
-      const response = await axios.post(
+      await axios.post(
         `${import.meta.env.VITE_API_URL}/api/v1/Transaction`,
         transaction,
       );
-      console.log("Transaction saved:", response.data);
+      // console.log("Transaction saved:", response.data);
       fetchTransaction();
     } catch (error) {
       console.error("Error saving transaction:", error);
