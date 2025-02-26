@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAtom } from "jotai";
 import { AtomEmail } from "../../atom/GateAtom"; // Correct import path
+import { getTokenDataFromCookie } from "../../api/token";
 
 const client_id = import.meta.env.VITE_CLIENT_ID;
 const redirect_uri = window.origin;
@@ -16,6 +17,22 @@ export const GatePage = () => {
   };
 
   const nav = useNavigate();
+
+  useEffect(() => {
+    const tokenData = getTokenDataFromCookie();
+    if (tokenData) {
+      fetch(
+        `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${tokenData}`,
+      )
+        .then((response) => response.json())
+        .then((data) => {
+          setEmail(data.email);
+          console.log("Email:", data.email);
+          nav("/dashboard");
+        })
+        .catch((error) => console.error("Error fetching email:", error));
+    }
+  }, [nav, setEmail]);
 
   useEffect(() => {
     const hash = window.location.hash;
