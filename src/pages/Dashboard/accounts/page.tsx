@@ -1,4 +1,12 @@
-import { Avatar, Box, Card, Flex, Text, TextField } from "@radix-ui/themes";
+import {
+  Avatar,
+  Badge,
+  Box,
+  Card,
+  Flex,
+  Text,
+  TextField,
+} from "@radix-ui/themes";
 import { Add } from "./crud/add";
 import { useEffect } from "react";
 import { useAtom, useSetAtom } from "jotai";
@@ -37,11 +45,14 @@ export const Account = () => {
                 />
                 <Box>
                   <Text as="div" size="2" weight="bold">
-                    ₱ {account.initValue.toLocaleString()} | {account.label}
+                    {account.label}
                   </Text>
                   <Text as="div" size="2" color="gray">
                     {account.description}
                   </Text>
+                  <Badge color={account.total < 0 ? "red" : "blue"}>
+                    ₱ {account.total.toLocaleString()}
+                  </Badge>
                 </Box>
 
                 <div className="flex flex-row items-center gap-1 ml-auto">

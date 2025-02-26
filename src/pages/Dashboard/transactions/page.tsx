@@ -36,7 +36,7 @@ export const Transaction = () => {
             placeholder="Search for Transaction"
             className="grow"
           />
-          <Button>Transfer</Button>
+          {/* <Button>Transfer</Button> */}
           <Add />
         </div>
         {transactions.map((transactionItem) => (
@@ -52,7 +52,7 @@ export const Transaction = () => {
                 <Box>
                   <Text as="div" size="2" weight="bold">
                     <Badge color={transactionItem.isPositive ? "green" : "red"}>
-                      ₱{transactionItem.amount}
+                      ₱{transactionItem.amount.toLocaleString("en-US")}
                     </Badge>
                   </Text>
                   <Text as="div" size="2" color="gray">

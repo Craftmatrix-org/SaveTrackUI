@@ -6,4 +6,5 @@ export type TypePayload = {
   initValue: number;
   createdAt: string;
   updatedAt: string;
+  total: number;
 };
