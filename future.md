@@ -1,0 +1,12 @@
+- [/] Daily Total Expenses and Total Earned
+- [/] Sort by Date
+- [ ] Transfer Value
+
+- [ ] Budget Management
+- [ ] Daily/Monthly/Weekly Charts
+- [ ] Debt Management
+- [ ] Wish-list Management
+- [ ] Category Charts
+- [ ] Subscription
+- [ ] Currency
+- [ ] Notification

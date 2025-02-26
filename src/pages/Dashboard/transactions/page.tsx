@@ -5,6 +5,7 @@ import {
   // Button,
   Card,
   Flex,
+  Switch,
   Text,
   TextField,
 } from "@radix-ui/themes";
@@ -23,6 +24,10 @@ export const Transaction = () => {
   const [transactions] = useAtom(AtomTransaction);
   const fetchTransactions = useSetAtom(AtomFetchTransaction);
   const [searchTerm, setSearchTerm] = useState("");
+  const [selectedDate, setSelectedDate] = useState(
+    new Date().toLocaleDateString("en-CA"),
+  );
+  const [showAll, setShowAll] = useState(false);
 
   const uid = getTokenDataFromCookie()?.uid;
 
@@ -30,11 +35,31 @@ export const Transaction = () => {
     fetchTransactions();
   }, [uid, fetchTransactions]);
 
-  const filteredTransactions = transactions.filter((transactionItem) =>
-    transactionItem.description
-      .toLowerCase()
-      .includes(searchTerm.toLowerCase()),
-  );
+  const filteredTransactions = transactions
+    .filter((transactionItem) =>
+      transactionItem.description
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase()),
+    )
+    .filter((transactionItem) => {
+      if (showAll) return true;
+      const transactionDate = new Date(
+        transactionItem.createdAt,
+      ).toLocaleDateString("en-CA");
+      return transactionDate === selectedDate;
+    })
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    );
+
+  const totalExpenses = filteredTransactions
+    .filter((transactionItem) => !transactionItem.isPositive)
+    .reduce((acc, transactionItem) => acc + transactionItem.amount, 0);
+
+  const totalEarned = filteredTransactions
+    .filter((transactionItem) => transactionItem.isPositive)
+    .reduce((acc, transactionItem) => acc + transactionItem.amount, 0);
 
   return (
     <div>
@@ -49,6 +74,30 @@ export const Transaction = () => {
           {/* <Button>Transfer</Button> */}
           <Add />
         </div>
+        <div className="flex flex-col sm:flex-row w-full sm:w-[60%] mx-auto gap-1">
+          <Card className="flex-1 text-center">
+            Expenses:
+            <Badge color="red">₱{totalExpenses.toLocaleString("en-US")}</Badge>
+          </Card>
+          <Card className="flex-1 text-center">
+            Earned:
+            <Badge color="green">₱{totalEarned.toLocaleString("en-US")}</Badge>
+          </Card>
+        </div>
+        <div className=" flex flex-col w-full sm:w-[60%] mx-auto gap-1">
+          <input
+            type="date"
+            value={selectedDate}
+            onChange={(e) => setSelectedDate(e.target.value)}
+            disabled={showAll}
+            className="w-fit"
+          />
+          <div className="mr-1 ml-auto">
+            Show all{" "}
+            <Switch defaultChecked={showAll} onCheckedChange={setShowAll} />
+          </div>
+        </div>
+
         {filteredTransactions.map((transactionItem) => (
           <Box key={transactionItem.id} className="mx-auto w-full sm:w-[60%]">
             <Card>
@@ -70,20 +119,28 @@ export const Transaction = () => {
                   </Text>
                 </Box>
 
-                <div className="flex flex-row items-center gap-1 ml-auto">
-                  <Text as="div" size="2" color="gray">
-                    {new Date(transactionItem.updatedAt).toLocaleDateString(
+                <div className="flex flex-col items-center gap-2 ml-auto">
+                  <Text
+                    as="div"
+                    size="2"
+                    color="gray"
+                    className="whitespace-nowrap"
+                  >
+                    {new Date(transactionItem.createdAt).toLocaleString(
                       "en-US",
                       {
                         month: "short",
                         day: "2-digit",
                         year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
                       },
-                    )}{" "}
+                    )}
                   </Text>
-
-                  <Edit transactionId={transactionItem.id} />
-                  <Delete transactionId={transactionItem.id} />
+                  <Flex gap="2">
+                    <Edit transactionId={transactionItem.id} />
+                    <Delete transactionId={transactionItem.id} />
+                  </Flex>
                 </div>
               </Flex>
             </Card>
