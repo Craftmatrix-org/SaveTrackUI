@@ -93,7 +93,6 @@ export const Transaction = () => {
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
           />
-          {/* <Button>Transfer</Button> */}
           <Add />
         </div>
         <div className="flex flex-col sm:flex-row w-full sm:w-[60%] mx-auto gap-1">
@@ -149,6 +148,9 @@ export const Transaction = () => {
                         >
                           ₱{transactionItem.amount.toLocaleString("en-US")}
                         </Badge>
+                        <Text as="div" size="2" color="gray">
+                          {transactionItem.concat}
+                        </Text>
                       </Text>
                       <Text as="div" size="2" color="gray">
                         {transactionItem.description}

@@ -9,4 +9,5 @@ export type TransactionType = {
   createdAt: string;
   updatedAt: string;
   isPositive: boolean;
+  concat: string;
 };
