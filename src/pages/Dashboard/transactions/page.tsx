@@ -5,6 +5,7 @@ import {
   // Button,
   Card,
   Flex,
+  ScrollArea,
   Switch,
   Text,
   TextField,
@@ -98,54 +99,70 @@ export const Transaction = () => {
           </div>
         </div>
 
-        {filteredTransactions.map((transactionItem) => (
-          <Box key={transactionItem.id} className="mx-auto w-full sm:w-[60%]">
-            <Card>
-              <Flex gap="3" align="center">
-                <Avatar
-                  size="3"
-                  src="https://assets.techrepublic.com/uploads/2021/08/tux-new.jpg"
-                  radius="full"
-                  fallback="T"
-                />
-                <Box>
-                  <Text as="div" size="2" weight="bold">
-                    <Badge color={transactionItem.isPositive ? "green" : "red"}>
-                      ₱{transactionItem.amount.toLocaleString("en-US")}
-                    </Badge>
-                  </Text>
-                  <Text as="div" size="2" color="gray">
-                    {transactionItem.description}
-                  </Text>
-                </Box>
+        <ScrollArea
+          type="always"
+          scrollbars="vertical"
+          style={{
+            height: "calc(100vh - 300px)",
+            width: "100%",
+            marginLeft: "auto",
+            marginRight: "auto",
+          }}
+          className="scroll-area sm:max-w-full"
+        >
+          <div className="flex flex-col gap-1">
+            {filteredTransactions.map((transactionItem) => (
+              <Box key={transactionItem.id} className="mx-auto w-full">
+                <Card>
+                  <Flex gap="3" align="center">
+                    <Avatar
+                      size="3"
+                      src="https://assets.techrepublic.com/uploads/2021/08/tux-new.jpg"
+                      radius="full"
+                      fallback="T"
+                    />
+                    <Box>
+                      <Text as="div" size="2" weight="bold">
+                        <Badge
+                          color={transactionItem.isPositive ? "green" : "red"}
+                        >
+                          ₱{transactionItem.amount.toLocaleString("en-US")}
+                        </Badge>
+                      </Text>
+                      <Text as="div" size="2" color="gray">
+                        {transactionItem.description}
+                      </Text>
+                    </Box>
 
-                <div className="flex flex-col items-center gap-2 ml-auto">
-                  <Text
-                    as="div"
-                    size="2"
-                    color="gray"
-                    className="whitespace-nowrap"
-                  >
-                    {new Date(transactionItem.createdAt).toLocaleString(
-                      "en-US",
-                      {
-                        month: "short",
-                        day: "2-digit",
-                        year: "numeric",
-                        hour: "2-digit",
-                        minute: "2-digit",
-                      },
-                    )}
-                  </Text>
-                  <Flex gap="2">
-                    <Edit transactionId={transactionItem.id} />
-                    <Delete transactionId={transactionItem.id} />
+                    <div className="flex flex-col items-center gap-2 ml-auto">
+                      <Text
+                        as="div"
+                        size="2"
+                        color="gray"
+                        className="whitespace-nowrap"
+                      >
+                        {new Date(transactionItem.createdAt).toLocaleString(
+                          "en-US",
+                          {
+                            month: "short",
+                            day: "2-digit",
+                            year: "numeric",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                          },
+                        )}
+                      </Text>
+                      <Flex gap="2">
+                        <Edit transactionId={transactionItem.id} />
+                        <Delete transactionId={transactionItem.id} />
+                      </Flex>
+                    </div>
                   </Flex>
-                </div>
-              </Flex>
-            </Card>
-          </Box>
-        ))}
+                </Card>
+              </Box>
+            ))}
+          </div>
+        </ScrollArea>
       </div>
     </div>
   );
