@@ -7,7 +7,7 @@ interface AccordionProps {
   items: {
     value: string;
     title: string;
-    content: string;
+    content: React.ReactNode;
   }[];
   defaultValue: string;
 }

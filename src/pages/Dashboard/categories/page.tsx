@@ -1,4 +1,3 @@
-import * as React from "react";
 import {
   Avatar,
   Badge,
@@ -57,86 +56,80 @@ export const Categories = () => {
             {
               value: "deposit",
               title: "Deposit",
-              content: (
-                <>
-                  {depositCategories.map((categoryItem) => (
-                    <Card key={categoryItem.id} className="mb-2">
-                      <Flex gap="3" align="center">
-                        <Avatar
-                          size="3"
-                          src="https://assets.techrepublic.com/uploads/2021/08/tux-new.jpg"
-                          radius="full"
-                          fallback="T"
-                        />
-                        <Box>
-                          <Text as="div" size="2" weight="bold">
-                            {categoryItem.name.toString()} |{" "}
-                            <Badge color="blue">deposit</Badge>
-                          </Text>
-                          <Text as="div" size="2" color="gray">
-                            {categoryItem.description}
-                          </Text>
-                        </Box>
-                        <div className="flex flex-row items-center gap-2 ml-auto">
-                          <Text as="div" size="2" color="gray">
-                            {new Date(
-                              categoryItem.updatedAt,
-                            ).toLocaleDateString("en-US", {
-                              month: "short",
-                              day: "2-digit",
-                              year: "numeric",
-                            })}{" "}
-                          </Text>
-                          <Edit categoryId={categoryItem.id} />
-                          <Delete categoryId={categoryItem.id} />
-                        </div>
-                      </Flex>
-                    </Card>
-                  ))}
-                </>
-              ),
+              content: depositCategories.map((categoryItem) => (
+                <Card key={categoryItem.id} className="mb-2">
+                  <Flex gap="3" align="center">
+                    <Avatar
+                      size="3"
+                      src="https://assets.techrepublic.com/uploads/2021/08/tux-new.jpg"
+                      radius="full"
+                      fallback="T"
+                    />
+                    <Box>
+                      <Text as="div" size="2" weight="bold">
+                        {categoryItem.name.toString()} |{" "}
+                        <Badge color="blue">deposit</Badge>
+                      </Text>
+                      <Text as="div" size="2" color="gray">
+                        {categoryItem.description}
+                      </Text>
+                    </Box>
+                    <div className="flex flex-row items-center gap-2 ml-auto">
+                      <Text as="div" size="2" color="gray">
+                        {new Date(categoryItem.updatedAt).toLocaleDateString(
+                          "en-US",
+                          {
+                            month: "short",
+                            day: "2-digit",
+                            year: "numeric",
+                          },
+                        )}{" "}
+                      </Text>
+                      <Edit categoryId={categoryItem.id} />
+                      <Delete categoryId={categoryItem.id} />
+                    </div>
+                  </Flex>
+                </Card>
+              )),
             },
             {
               value: "withdraw",
               title: "Withdraw",
-              content: (
-                <>
-                  {withdrawCategories.map((categoryItem) => (
-                    <Card key={categoryItem.id} className="mb-2">
-                      <Flex gap="3" align="center">
-                        <Avatar
-                          size="3"
-                          src="https://assets.techrepublic.com/uploads/2021/08/tux-new.jpg"
-                          radius="full"
-                          fallback="T"
-                        />
-                        <Box>
-                          <Text as="div" size="2" weight="bold">
-                            {categoryItem.name.toString()} |{" "}
-                            <Badge color="red">withdraw</Badge>
-                          </Text>
-                          <Text as="div" size="2" color="gray">
-                            {categoryItem.description}
-                          </Text>
-                        </Box>
-                        <div className="flex flex-row items-center gap-2 ml-auto">
-                          <Text as="div" size="2" color="gray">
-                            {new Date(
-                              categoryItem.updatedAt,
-                            ).toLocaleDateString("en-US", {
-                              month: "short",
-                              day: "2-digit",
-                              year: "numeric",
-                            })}{" "}
-                          </Text>
-                          <Edit categoryId={categoryItem.id} />
-                          <Delete categoryId={categoryItem.id} />
-                        </div>
-                      </Flex>
-                    </Card>
-                  ))}
-                </>
-              ),
+              content: withdrawCategories.map((categoryItem) => (
+                <Card key={categoryItem.id} className="mb-2">
+                  <Flex gap="3" align="center">
+                    <Avatar
+                      size="3"
+                      src="https://assets.techrepublic.com/uploads/2021/08/tux-new.jpg"
+                      radius="full"
+                      fallback="T"
+                    />
+                    <Box>
+                      <Text as="div" size="2" weight="bold">
+                        {categoryItem.name.toString()} |{" "}
+                        <Badge color="red">withdraw</Badge>
+                      </Text>
+                      <Text as="div" size="2" color="gray">
+                        {categoryItem.description}
+                      </Text>
+                    </Box>
+                    <div className="flex flex-row items-center gap-2 ml-auto">
+                      <Text as="div" size="2" color="gray">
+                        {new Date(categoryItem.updatedAt).toLocaleDateString(
+                          "en-US",
+                          {
+                            month: "short",
+                            day: "2-digit",
+                            year: "numeric",
+                          },
+                        )}{" "}
+                      </Text>
+                      <Edit categoryId={categoryItem.id} />
+                      <Delete categoryId={categoryItem.id} />
+                    </div>
+                  </Flex>
+                </Card>
+              )),
             },
           ]}
           defaultValue="deposit"
