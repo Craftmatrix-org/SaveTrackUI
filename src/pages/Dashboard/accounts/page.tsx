@@ -2,7 +2,7 @@ import {
   Avatar,
   Badge,
   Box,
-  Button,
+  // Button,
   Card,
   Flex,
   ScrollArea,
@@ -15,9 +15,7 @@ import { useAtom, useSetAtom } from "jotai";
 import { AtomAccount, AtomFetchAccount } from "../../../atom/AccountAtom";
 import { getTokenDataFromCookie } from "../../../api/token";
 import { Edit } from "./crud/edit";
-// import { Search } from "lucide-react";
 import { Delete } from "./crud/delete";
-import { Banknote, CreditCard, WalletMinimal } from "lucide-react";
 export const Account = () => {
   const [account] = useAtom(AtomAccount);
   const fetchAccount = useSetAtom(AtomFetchAccount);
@@ -36,26 +34,51 @@ export const Account = () => {
   return (
     <div>
       <div className="flex flex-col gap-2 w-full p-1">
-        <Card className="m-2 flex flex-row w-full sm:w-[60%] mx-auto ">
-          <div className="gap-1  justify-between flex flex-wrap">
-            <Text className="flex items-center justify-center">
-              <Banknote />₱{" "}
-              {account
-                .reduce((sum, acc) => sum + acc.total, 0)
-                .toLocaleString()}
-            </Text>
-            <div className="flex flex-row gap-1 sm:ml-auto">
-              <Button variant="outline">
-                <CreditCard />
-                Account
-              </Button>
-              <Button variant="outline">
-                <WalletMinimal />
-                Debt
-              </Button>
+        <div className="m-2 flex flex-col w-full sm:w-[60%] mx-auto gap-2">
+          <Card className="flex flex-col w-full">
+            <div className="gap-1 justify-center flex flex-col items-center">
+              <Text className="flex flex-col items-center justify-center">
+                <span>Total:</span>
+                <Badge color="blue">
+                  ₱{" "}
+                  {account
+                    .reduce((sum, acc) => sum + acc.total, 0)
+                    .toLocaleString()}
+                </Badge>
+              </Text>
             </div>
+          </Card>
+          <div className="flex flex-row w-full gap-1">
+            <Card className="flex flex-col w-full">
+              <div className="gap-1 justify-center flex flex-col items-center">
+                <Text className="flex flex-col items-center justify-center">
+                  <span>Credit:</span>
+                  <Badge color="green">
+                    ₱{" "}
+                    {account
+                      .filter((acc) => acc.total > 0)
+                      .reduce((sum, acc) => sum + acc.total, 0)
+                      .toLocaleString()}
+                  </Badge>
+                </Text>
+              </div>
+            </Card>
+            <Card className="flex flex-col w-full">
+              <div className="gap-1 justify-center flex flex-col items-center">
+                <Text className="flex flex-col items-center justify-center">
+                  <span>Debit:</span>
+                  <Badge color="red">
+                    ₱{" "}
+                    {account
+                      .filter((acc) => acc.total < 0)
+                      .reduce((sum, acc) => sum + acc.total, 0)
+                      .toLocaleString()}
+                  </Badge>
+                </Text>
+              </div>
+            </Card>
           </div>
-        </Card>
+        </div>
         <div className="m-2 flex flex-row w-full sm:w-[60%] mx-auto gap-1">
           <TextField.Root
             placeholder="Search for Account"
@@ -69,7 +92,7 @@ export const Account = () => {
           type="always"
           scrollbars="vertical"
           style={{
-            height: "calc(100vh - 200px)",
+            height: "calc(100vh - 300px)",
             width: "100%",
             marginLeft: "auto",
             marginRight: "auto",
@@ -118,7 +141,7 @@ export const Account = () => {
                           },
                         )}{" "}
                       </Text>
-
+                      {/* <Button>View Data</Button> */}
                       <Edit accountId={account.id} />
                       <Delete accountId={account.id} />
                     </div>
