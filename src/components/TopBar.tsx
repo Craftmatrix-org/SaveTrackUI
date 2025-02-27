@@ -9,12 +9,12 @@ export const TopBar = () => {
   return (
     <main>
       <TabNav.Root>
-        <TabNav.Link
+        {/* <TabNav.Link
           onClick={() => navigate("/charts")}
           active={firstPath === "charts"}
         >
           Charts
-        </TabNav.Link>
+        </TabNav.Link> */}
         <TabNav.Link
           onClick={() => navigate("/records")}
           active={firstPath === "records"}
@@ -33,12 +33,12 @@ export const TopBar = () => {
         >
           Account
         </TabNav.Link>
-        <TabNav.Link
+        {/* <TabNav.Link
           onClick={() => navigate("/budget")}
           active={firstPath === "budget"}
         >
           Budget
-        </TabNav.Link>
+        </TabNav.Link> */}
       </TabNav.Root>
     </main>
   );
