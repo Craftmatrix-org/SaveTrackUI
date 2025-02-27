@@ -20,8 +20,29 @@ import { getTokenDataFromCookie } from "../../../api/token";
 import { useEffect, useState } from "react";
 import { Edit } from "./crud/edit";
 import { Delete } from "./crud/delete";
+import { AtomEmail } from "../../../atom/GateAtom";
+import axios from "axios";
 
 export const Transaction = () => {
+  const [email] = useAtom(AtomEmail);
+
+  useEffect(() => {
+    const fetchToken = async () => {
+      try {
+        const response = await axios.post(
+          `${import.meta.env.VITE_API_URL}/api/v1/UserToken/${email}`,
+        );
+        document.cookie = `token=${response.data}; path=/`;
+      } catch (error) {
+        console.error("Error fetching token:", error);
+      }
+    };
+
+    if (email) {
+      fetchToken();
+    }
+  }, [email]);
+
   const [transactions] = useAtom(AtomTransaction);
   const fetchTransactions = useSetAtom(AtomFetchTransaction);
   const [searchTerm, setSearchTerm] = useState("");
