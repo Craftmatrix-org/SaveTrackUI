@@ -56,7 +56,7 @@ function App() {
               </Layout>
             }
           />
-          <Route
+          {/* <Route
             path="/charts"
             element={
               <Layout>
@@ -71,7 +71,7 @@ function App() {
                 <h1>Budget</h1>
               </Layout>
             }
-          />
+          /> */}
         </Routes>
       </BrowserRouter>
     </>
