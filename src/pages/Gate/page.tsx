@@ -21,7 +21,7 @@ export const GatePage = () => {
   useEffect(() => {
     const tokenData = getTokenDataFromCookie();
     if (tokenData) {
-      nav("/record");
+      nav("/records");
     }
   }, [nav, setEmail]);
 
