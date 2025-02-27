@@ -5,7 +5,7 @@
 - [ ] Daily/Monthly/Weekly Charts
 - [ ] Transfer Value
 - [ ] Budget Management
-
+- [ ] Prediction Charts
 - [ ] Wish-list Management
 - [ ] Category Charts
 - [ ] Subscription

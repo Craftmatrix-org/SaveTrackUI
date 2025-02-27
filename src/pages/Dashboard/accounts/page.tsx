@@ -100,55 +100,59 @@ export const Account = () => {
           className="scroll-area sm:max-w-full"
         >
           <div className="flex flex-col gap-1">
-            {filteredAccounts.map((account) => (
-              <Box key={account.id} className="mx-auto w-full ">
-                <Card>
-                  <Flex gap="3" align="center">
-                    <Avatar
-                      size="3"
-                      src="https://assets.techrepublic.com/uploads/2021/08/tux-new.jpg"
-                      radius="full"
-                      fallback="T"
-                    />
-                    <Box>
-                      <Text as="div" size="2" weight="bold">
-                        {account.label}
-                      </Text>
-                      <Text as="div" size="2" color="gray">
-                        {account.description}
-                      </Text>
-                      <Badge
-                        color={
-                          account.total === 0
-                            ? "gray"
-                            : account.total < 0
-                              ? "red"
-                              : "blue"
-                        }
-                      >
-                        ₱ {account.total.toLocaleString()}
-                      </Badge>
-                    </Box>
+            {filteredAccounts.length === 0 ? (
+              <Text className="text-center">No account yet</Text>
+            ) : (
+              filteredAccounts.map((account) => (
+                <Box key={account.id} className="mx-auto w-full ">
+                  <Card>
+                    <Flex gap="3" align="center">
+                      <Avatar
+                        size="3"
+                        src="https://assets.techrepublic.com/uploads/2021/08/tux-new.jpg"
+                        radius="full"
+                        fallback="T"
+                      />
+                      <Box>
+                        <Text as="div" size="2" weight="bold">
+                          {account.label}
+                        </Text>
+                        <Text as="div" size="2" color="gray">
+                          {account.description}
+                        </Text>
+                        <Badge
+                          color={
+                            account.total === 0
+                              ? "gray"
+                              : account.total < 0
+                                ? "red"
+                                : "blue"
+                          }
+                        >
+                          ₱ {account.total.toLocaleString()}
+                        </Badge>
+                      </Box>
 
-                    <div className="flex flex-row items-center gap-1 ml-auto">
-                      <Text as="div" size="2" color="gray">
-                        {new Date(account.updatedAt).toLocaleDateString(
-                          "en-US",
-                          {
-                            month: "short",
-                            day: "2-digit",
-                            year: "numeric",
-                          },
-                        )}{" "}
-                      </Text>
-                      {/* <Button>View Data</Button> */}
-                      <Edit accountId={account.id} />
-                      <Delete accountId={account.id} />
-                    </div>
-                  </Flex>
-                </Card>
-              </Box>
-            ))}
+                      <div className="flex flex-row items-center gap-1 ml-auto">
+                        <Text as="div" size="2" color="gray">
+                          {new Date(account.updatedAt).toLocaleDateString(
+                            "en-US",
+                            {
+                              month: "short",
+                              day: "2-digit",
+                              year: "numeric",
+                            },
+                          )}{" "}
+                        </Text>
+                        {/* <Button>View Data</Button> */}
+                        <Edit accountId={account.id} />
+                        <Delete accountId={account.id} />
+                      </div>
+                    </Flex>
+                  </Card>
+                </Box>
+              ))
+            )}
           </div>
         </ScrollArea>
       </div>
