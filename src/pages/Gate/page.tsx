@@ -37,7 +37,7 @@ export const GatePage = () => {
           .then((data) => {
             setEmail(data.email);
             console.log("Email:", data.email);
-            nav("/dashboard");
+            nav("/records");
           })
           .catch((error) => console.error("Error fetching email:", error));
       }
