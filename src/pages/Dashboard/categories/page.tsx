@@ -73,45 +73,50 @@ export const Categories = () => {
         }}
         className="scroll-area sm:max-w-full"
       >
-        {/* <div className="flex flex-col sm: w-full sm:w-[60%] mx-auto gap-1"> */}
         <div className="flex flex-col gap-1">
-          {filteredCategories.map((categoryItem) => (
-            <Card key={categoryItem.id} className="mb-2 w-full">
-              <Flex gap="3" align="center">
-                <Avatar
-                  size="3"
-                  src="https://assets.techrepublic.com/uploads/2021/08/tux-new.jpg"
-                  radius="full"
-                  fallback="T"
-                />
-                <Box>
-                  <Text as="div" size="2" weight="bold">
-                    {categoryItem.name.toString()} |{" "}
-                    <Badge color={categoryItem.isPositive ? "blue" : "red"}>
-                      {categoryItem.isPositive ? "deposit" : "withdraw"}
-                    </Badge>
-                  </Text>
-                  <Text as="div" size="2" color="gray">
-                    {categoryItem.description}
-                  </Text>
-                </Box>
-                <div className="flex flex-row items-center gap-2 ml-auto">
-                  <Text as="div" size="2" color="gray">
-                    {new Date(categoryItem.updatedAt).toLocaleDateString(
-                      "en-US",
-                      {
-                        month: "short",
-                        day: "2-digit",
-                        year: "numeric",
-                      },
-                    )}{" "}
-                  </Text>
-                  <Edit categoryId={categoryItem.id} />
-                  <Delete categoryId={categoryItem.id} />
-                </div>
-              </Flex>
-            </Card>
-          ))}
+          {filteredCategories.length === 0 ? (
+            <Text as="div" size="2" color="gray" className="text-center">
+              No categories yet.
+            </Text>
+          ) : (
+            filteredCategories.map((categoryItem) => (
+              <Card key={categoryItem.id} className="mb-2 w-full">
+                <Flex gap="3" align="center">
+                  <Avatar
+                    size="3"
+                    src="https://assets.techrepublic.com/uploads/2021/08/tux-new.jpg"
+                    radius="full"
+                    fallback="T"
+                  />
+                  <Box>
+                    <Text as="div" size="2" weight="bold">
+                      {categoryItem.name.toString()} |{" "}
+                      <Badge color={categoryItem.isPositive ? "blue" : "red"}>
+                        {categoryItem.isPositive ? "deposit" : "withdraw"}
+                      </Badge>
+                    </Text>
+                    <Text as="div" size="2" color="gray">
+                      {categoryItem.description}
+                    </Text>
+                  </Box>
+                  <div className="flex flex-row items-center gap-2 ml-auto">
+                    <Text as="div" size="2" color="gray">
+                      {new Date(categoryItem.updatedAt).toLocaleDateString(
+                        "en-US",
+                        {
+                          month: "short",
+                          day: "2-digit",
+                          year: "numeric",
+                        },
+                      )}{" "}
+                    </Text>
+                    <Edit categoryId={categoryItem.id} />
+                    <Delete categoryId={categoryItem.id} />
+                  </div>
+                </Flex>
+              </Card>
+            ))
+          )}
         </div>
       </ScrollArea>
     </div>
