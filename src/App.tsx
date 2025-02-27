@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { GatePage } from "./pages/Gate/page";
 import { getTokenDataFromCookie } from "./api/token";
 import { Transaction } from "./pages/Dashboard/transactions/page";
-import { TopBar } from "./components/TopBar";
 import Layout from "./custom-component/layout";
 import { Categories } from "./pages/Dashboard/categories/page";
 import { Account } from "./pages/Dashboard/accounts/page";
