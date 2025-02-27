@@ -131,59 +131,65 @@ export const Transaction = () => {
           className="scroll-area sm:max-w-full"
         >
           <div className="flex flex-col gap-1">
-            {filteredTransactions.map((transactionItem) => (
-              <Box key={transactionItem.id} className="mx-auto w-full">
-                <Card>
-                  <Flex gap="3" align="center">
-                    <Avatar
-                      size="3"
-                      src="https://assets.techrepublic.com/uploads/2021/08/tux-new.jpg"
-                      radius="full"
-                      fallback="T"
-                    />
-                    <Box>
-                      <Text as="div" size="2" weight="bold">
-                        <Badge
-                          color={transactionItem.isPositive ? "green" : "red"}
-                        >
-                          ₱{transactionItem.amount.toLocaleString("en-US")}
-                        </Badge>
-                        <Text as="div" size="2" color="gray">
-                          {transactionItem.concat}
+            {filteredTransactions.length === 0 ? (
+              <Text as="div" size="2" color="gray" className="text-center">
+                No transactions yet.
+              </Text>
+            ) : (
+              filteredTransactions.map((transactionItem) => (
+                <Box key={transactionItem.id} className="mx-auto w-full">
+                  <Card>
+                    <Flex gap="3" align="center">
+                      <Avatar
+                        size="3"
+                        src="https://assets.techrepublic.com/uploads/2021/08/tux-new.jpg"
+                        radius="full"
+                        fallback="T"
+                      />
+                      <Box>
+                        <Text as="div" size="2" weight="bold">
+                          <Badge
+                            color={transactionItem.isPositive ? "green" : "red"}
+                          >
+                            ₱{transactionItem.amount.toLocaleString("en-US")}
+                          </Badge>
+                          <Text as="div" size="2" color="gray">
+                            {transactionItem.concat}
+                          </Text>
                         </Text>
-                      </Text>
-                      <Text as="div" size="2" color="gray">
-                        {transactionItem.description}
-                      </Text>
-                    </Box>
+                        <Text as="div" size="2" color="gray">
+                          {transactionItem.description}
+                        </Text>
+                      </Box>
 
-                    <div className="flex flex-col items-center gap-2 ml-auto">
-                      <Text
-                        as="div"
-                        size="2"
-                        color="gray"
-                        className="whitespace-nowrap"
-                      >
-                        {new Date(transactionItem.createdAt).toLocaleString(
-                          "en-US",
-                          {
-                            month: "short",
-                            day: "2-digit",
-                            year: "numeric",
-                            hour: "2-digit",
-                            minute: "2-digit",
-                          },
-                        )}
-                      </Text>
-                      <Flex gap="2">
-                        <Edit transactionId={transactionItem.id} />
-                        <Delete transactionId={transactionItem.id} />
-                      </Flex>
-                    </div>
-                  </Flex>
-                </Card>
-              </Box>
-            ))}
+                      <div className="flex flex-col items-center gap-2 ml-auto">
+                        <Text
+                          as="div"
+                          size="2"
+                          color="gray"
+                          className="whitespace-nowrap"
+                        >
+                          {new Date(transactionItem.createdAt).toLocaleString(
+                            "en-US",
+                            {
+                              month: "short",
+                              day: "2-digit",
+                              year: "numeric",
+                              hour: "2-digit",
+                              minute: "2-digit",
+                            },
+                          )}
+                        </Text>
+                        <Flex gap="2">
+                          <Edit transactionId={transactionItem.id} />
+                          <Delete transactionId={transactionItem.id} />
+                        </Flex>
+                      </div>
+                    </Flex>
+                  </Card>
+                </Box>
+              ))
+            )}
           </div>
         </ScrollArea>
       </div>
