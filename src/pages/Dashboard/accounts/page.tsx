@@ -21,7 +21,7 @@ export const Account = () => {
   const fetchAccount = useSetAtom(AtomFetchAccount);
   const [searchTerm, setSearchTerm] = useState("");
 
-  const uid = getTokenDataFromCookie()?.uid;
+  const uid = getTokenDataFromCookie()?.jti;
 
   useEffect(() => {
     fetchAccount();

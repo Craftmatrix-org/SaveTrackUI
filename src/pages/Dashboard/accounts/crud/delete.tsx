@@ -3,6 +3,7 @@ import axios from "axios";
 import { useSetAtom } from "jotai";
 import React, { useEffect } from "react";
 import { AtomFetchAccount } from "../../../../atom/AccountAtom";
+import { getCookie } from "../../../../api/token";
 
 type EditProps = {
   accountId: string;
@@ -10,11 +11,17 @@ type EditProps = {
 
 export const Delete: React.FC<EditProps> = ({ accountId }) => {
   const fetchAccount = useSetAtom(AtomFetchAccount);
+  const token = getCookie("token");
 
   const fetchAccountData = async () => {
     try {
       await axios.get(
         `${import.meta.env.VITE_API_URL}/api/v1/Account/specific/${accountId}`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        },
       );
       // console.log(response.data);
     } catch (error) {
@@ -26,6 +33,11 @@ export const Delete: React.FC<EditProps> = ({ accountId }) => {
     try {
       await axios.delete(
         `${import.meta.env.VITE_API_URL}/api/v1/Account/${accountId}`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        },
       );
       console.log("Account deleted successfully");
       fetchAccount();

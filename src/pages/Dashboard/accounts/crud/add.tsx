@@ -1,6 +1,6 @@
 import { Button, Dialog, Flex, Text, TextField } from "@radix-ui/themes";
 import { useState } from "react";
-import { getTokenDataFromCookie } from "../../../../api/token";
+import { getCookie, getTokenDataFromCookie } from "../../../../api/token";
 import axios from "axios";
 import { useSetAtom } from "jotai";
 import { AtomFetchAccount } from "../../../../atom/AccountAtom";
@@ -11,10 +11,12 @@ export const Add = () => {
   const [initValue, setInitValue] = useState(0);
   const fetchAccount = useSetAtom(AtomFetchAccount);
 
+  const token = getCookie("token");
+
   const handleSave = async () => {
     const accountData = {
       id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
-      userID: getTokenDataFromCookie()?.uid,
+      userID: getTokenDataFromCookie()?.jti,
       label,
       description,
       initValue,
@@ -26,6 +28,11 @@ export const Add = () => {
       await axios.post(
         `${import.meta.env.VITE_API_URL}/api/v1/Account`,
         accountData,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        },
       );
       // console.log(response.data);
       await fetchAccount();
