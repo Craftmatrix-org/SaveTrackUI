@@ -3,6 +3,7 @@ import axios from "axios";
 import { useSetAtom } from "jotai";
 import React, { useEffect } from "react";
 import { AtomFetchCategory } from "../../../../atom/CategoryAtom";
+import { getCookie } from "../../../../api/token";
 
 type EditProps = {
   categoryId: string;
@@ -10,11 +11,15 @@ type EditProps = {
 
 export const Delete: React.FC<EditProps> = ({ categoryId }) => {
   const fetchCategory = useSetAtom(AtomFetchCategory);
-
   const fetchCategoryData = async () => {
     try {
       await axios.get(
         `${import.meta.env.VITE_API_URL}/api/v1/Category/specific/${categoryId}`,
+        {
+          headers: {
+            Authorization: `${getCookie("token")}`,
+          },
+        },
       );
       // console.log(response.data);
     } catch (error) {
@@ -26,6 +31,11 @@ export const Delete: React.FC<EditProps> = ({ categoryId }) => {
     try {
       await axios.delete(
         `${import.meta.env.VITE_API_URL}/api/v1/Category/${categoryId}`,
+        {
+          headers: {
+            Authorization: `${getCookie("token")}`,
+          },
+        },
       );
       console.log("Category deleted successfully");
       fetchCategory();

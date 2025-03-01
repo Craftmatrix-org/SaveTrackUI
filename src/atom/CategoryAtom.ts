@@ -1,6 +1,6 @@
 import axios from "axios";
 import { atom } from "jotai";
-import { getTokenDataFromCookie } from "../api/token";
+import { getCookie, getTokenDataFromCookie } from "../api/token";
 import { CategoryType } from "../types/CategoryType";
 
 export const AtomCategory = atom<CategoryType[]>([]);
@@ -11,7 +11,12 @@ export const AtomFetchCategory = atom(
   async (get, set) => {
     try {
       const response = await axios.get(
-        `${import.meta.env.VITE_API_URL}/api/v1/Category/${getTokenDataFromCookie()?.uid}`,
+        `${import.meta.env.VITE_API_URL}/api/v1/Category/${getTokenDataFromCookie()?.jti}`,
+        {
+          headers: {
+            Authorization: `${getCookie("token")}`,
+          },
+        },
       );
       const account: CategoryType[] = response.data;
       set(AtomCategory, account);

@@ -31,6 +31,9 @@ export const Transaction = () => {
       try {
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/api/v1/UserToken/${email}`,
+          {
+            timeout: 5000,
+          },
         );
         document.cookie = `token=${response.data}; path=/`;
       } catch (error) {
@@ -51,7 +54,7 @@ export const Transaction = () => {
   );
   const [showAll, setShowAll] = useState(false);
 
-  const uid = getTokenDataFromCookie()?.uid;
+  const uid = getTokenDataFromCookie()?.jti;
 
   useEffect(() => {
     fetchTransactions();

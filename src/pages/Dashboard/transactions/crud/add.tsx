@@ -8,7 +8,7 @@ import {
   TextArea,
 } from "@radix-ui/themes";
 import { useState, useEffect } from "react";
-import { getTokenDataFromCookie } from "../../../../api/token";
+import { getCookie, getTokenDataFromCookie } from "../../../../api/token";
 import axios from "axios";
 import { useSetAtom, useAtom } from "jotai";
 import { AtomFetchTransaction } from "../../../../atom/TransactionAtom";
@@ -33,6 +33,8 @@ export const Add = () => {
   const [accounts] = useAtom(AtomAccount);
   const [categories] = useAtom(AtomCategory);
 
+  const token = getCookie("token");
+
   useEffect(() => {
     // console.log(fetchAccount);
     // console.log(fetchCategory);
@@ -40,7 +42,7 @@ export const Add = () => {
     fetchCategory();
   }, [fetchAccount, fetchCategory]);
 
-  const uid = getTokenDataFromCookie()?.uid ?? "";
+  const uid = getTokenDataFromCookie()?.jti ?? "";
   const [transaction, setTransaction] = useState<TransactionType>({
     id: uid,
     userID: uid,
@@ -68,10 +70,16 @@ export const Add = () => {
   }, [accounts, categories]);
 
   const handleSave = async () => {
+    console.log(transaction);
     try {
       await axios.post(
         `${import.meta.env.VITE_API_URL}/api/v1/Transaction`,
         transaction,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        },
       );
       // console.log("Transaction saved:", response.data);
       fetchTransaction();

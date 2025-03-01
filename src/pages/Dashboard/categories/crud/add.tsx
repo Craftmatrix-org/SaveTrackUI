@@ -7,7 +7,7 @@ import {
   TextField,
 } from "@radix-ui/themes";
 import { useState } from "react";
-import { getTokenDataFromCookie } from "../../../../api/token";
+import { getCookie, getTokenDataFromCookie } from "../../../../api/token";
 import axios from "axios";
 import { useSetAtom } from "jotai";
 import { AtomFetchCategory } from "../../../../atom/CategoryAtom";
@@ -25,7 +25,9 @@ export type CategoryType = {
 export const Add = () => {
   const fetchCategory = useSetAtom(AtomFetchCategory);
 
-  const uid = getTokenDataFromCookie()?.uid ?? "";
+  const token = getCookie("token");
+
+  const uid = getTokenDataFromCookie()?.jti ?? "";
   const [category, setCategory] = useState<CategoryType>({
     id: uid,
     userID: uid,
@@ -40,6 +42,11 @@ export const Add = () => {
       const response = await axios.post(
         `${import.meta.env.VITE_API_URL}/api/v1/Category`,
         category,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        },
       );
       console.log("Category saved:", response.data);
       fetchCategory();

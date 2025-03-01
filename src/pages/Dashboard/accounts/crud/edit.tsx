@@ -1,6 +1,6 @@
 import { Button, Dialog, Flex, Text, TextField } from "@radix-ui/themes";
 import { useState, useEffect } from "react";
-import { getTokenDataFromCookie } from "../../../../api/token";
+import { getCookie, getTokenDataFromCookie } from "../../../../api/token";
 import axios from "axios";
 import { useSetAtom } from "jotai";
 import { AtomFetchAccount } from "../../../../atom/AccountAtom";
@@ -15,10 +15,17 @@ export const Edit: React.FC<EditProps> = ({ accountId }) => {
   const [initValue, setInitValue] = useState<number>(0);
   const fetchAccount = useSetAtom(AtomFetchAccount);
 
+  const token = getCookie("token");
+
   const fetchAccountData = async () => {
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/api/v1/Account/specific/${accountId}`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        },
       );
 
       setLabel(response.data[0].label || "");
@@ -36,7 +43,7 @@ export const Edit: React.FC<EditProps> = ({ accountId }) => {
   const handleSave = async () => {
     const accountData = {
       id: accountId,
-      userID: getTokenDataFromCookie()?.uid,
+      userID: getTokenDataFromCookie()?.jti,
       label,
       description,
       initValue,
@@ -48,6 +55,11 @@ export const Edit: React.FC<EditProps> = ({ accountId }) => {
       await axios.put(
         `${import.meta.env.VITE_API_URL}/api/v1/Account/${accountId}`,
         accountData,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        },
       );
       console.log(accountData);
       await fetchAccount();

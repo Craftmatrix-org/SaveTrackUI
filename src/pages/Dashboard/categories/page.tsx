@@ -23,7 +23,7 @@ export const Categories = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [filter, setFilter] = useState("all");
 
-  const uid = getTokenDataFromCookie()?.uid;
+  const uid = getTokenDataFromCookie()?.jti;
 
   useEffect(() => {
     fetchCategory();
