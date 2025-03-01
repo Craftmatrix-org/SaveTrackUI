@@ -54,7 +54,7 @@ export const Transaction = () => {
   );
   const [showAll, setShowAll] = useState(false);
 
-  const uid = getTokenDataFromCookie()?.uid;
+  const uid = getTokenDataFromCookie()?.jti;
 
   useEffect(() => {
     fetchTransactions();
