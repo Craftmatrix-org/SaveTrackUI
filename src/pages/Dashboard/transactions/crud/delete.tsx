@@ -3,6 +3,7 @@ import axios from "axios";
 import { useSetAtom } from "jotai";
 import React, { useEffect } from "react";
 import { AtomFetchTransaction } from "../../../../atom/TransactionAtom";
+import { getCookie } from "../../../../api/token";
 
 type EditProps = {
   transactionId: string;
@@ -11,10 +12,17 @@ type EditProps = {
 export const Delete: React.FC<EditProps> = ({ transactionId }) => {
   const fetchTransaction = useSetAtom(AtomFetchTransaction);
 
+  const token = getCookie("token");
+
   const fetchTransactionData = async () => {
     try {
       await axios.get(
         `${import.meta.env.VITE_API_URL}/api/v1/Transaction/specific/${transactionId}`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        },
       );
       // console.log(response.data);
     } catch (error) {
@@ -26,6 +34,11 @@ export const Delete: React.FC<EditProps> = ({ transactionId }) => {
     try {
       await axios.delete(
         `${import.meta.env.VITE_API_URL}/api/v1/Transaction/${transactionId}`,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        },
       );
       console.log("Transaction deleted successfully");
       fetchTransaction();

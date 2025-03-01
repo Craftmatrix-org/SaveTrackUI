@@ -16,16 +16,17 @@ import {
   AtomFetchTransaction,
   AtomTransaction,
 } from "../../../atom/TransactionAtom";
-import { getTokenDataFromCookie } from "../../../api/token";
+import { getCookie, getTokenDataFromCookie } from "../../../api/token";
 import { useEffect, useState } from "react";
 import { Edit } from "./crud/edit";
 import { Delete } from "./crud/delete";
 import { AtomEmail } from "../../../atom/GateAtom";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 export const Transaction = () => {
   const [email] = useAtom(AtomEmail);
-
+  const nav = useNavigate();
   useEffect(() => {
     const fetchToken = async () => {
       try {
@@ -35,6 +36,11 @@ export const Transaction = () => {
         document.cookie = `token=${response.data}; path=/`;
       } catch (error) {
         console.error("Error fetching token:", error);
+      } finally {
+        const token = getCookie("token");
+        if (!token) {
+          nav("/");
+        }
       }
     };
 
@@ -51,7 +57,7 @@ export const Transaction = () => {
   );
   const [showAll, setShowAll] = useState(false);
 
-  const uid = getTokenDataFromCookie()?.uid;
+  const uid = getTokenDataFromCookie()?.jti;
 
   useEffect(() => {
     fetchTransactions();

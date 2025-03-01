@@ -7,7 +7,7 @@ import {
   Select,
 } from "@radix-ui/themes";
 import { useState, useEffect } from "react";
-import { getTokenDataFromCookie } from "../../../../api/token";
+import { getCookie, getTokenDataFromCookie } from "../../../../api/token";
 import axios from "axios";
 import { useSetAtom, useAtom } from "jotai";
 import { AtomFetchTransaction } from "../../../../atom/TransactionAtom";
@@ -37,7 +37,9 @@ export const Edit = ({ transactionId }: { transactionId: string }) => {
     fetchCategory();
   }, [fetchAccount, fetchCategory]);
 
-  const uid = getTokenDataFromCookie()?.uid ?? "";
+  const token = getCookie("token");
+
+  const uid = getTokenDataFromCookie()?.jti ?? "";
   const [transaction, setTransaction] = useState<TransactionType>({
     id: uid,
     userID: uid,
@@ -54,6 +56,11 @@ export const Edit = ({ transactionId }: { transactionId: string }) => {
       try {
         const response = await axios.get(
           `${import.meta.env.VITE_API_URL}/api/v1/Transaction/specific/${transactionId}`,
+          {
+            headers: {
+              Authorization: `${token}`,
+            },
+          },
         );
         setTransaction(response.data[0]);
         // console.log(response.data[0]);
@@ -70,6 +77,11 @@ export const Edit = ({ transactionId }: { transactionId: string }) => {
       const response = await axios.put(
         `${import.meta.env.VITE_API_URL}/api/v1/Transaction/${transactionId}`,
         transaction,
+        {
+          headers: {
+            Authorization: `${token}`,
+          },
+        },
       );
       console.log("Transaction saved:", response.data);
       fetchTransaction();

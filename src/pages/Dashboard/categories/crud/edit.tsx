@@ -7,7 +7,7 @@ import {
   TextField,
 } from "@radix-ui/themes";
 import { useState, useEffect } from "react";
-import { getTokenDataFromCookie } from "../../../../api/token";
+import { getCookie, getTokenDataFromCookie } from "../../../../api/token";
 import axios from "axios";
 import { useSetAtom } from "jotai";
 import { AtomFetchCategory } from "../../../../atom/CategoryAtom";
@@ -26,6 +26,11 @@ export const Edit: React.FC<EditProps> = ({ categoryId }) => {
     try {
       const response = await axios.get(
         `${import.meta.env.VITE_API_URL}/api/v1/Category/specific/${categoryId}`,
+        {
+          headers: {
+            Authorization: `${getCookie("token")}`,
+          },
+        },
       );
 
       setName(response.data[0].name || "");
@@ -44,7 +49,7 @@ export const Edit: React.FC<EditProps> = ({ categoryId }) => {
   const handleSave = async () => {
     const categoryData = {
       id: categoryId,
-      userID: getTokenDataFromCookie()?.uid,
+      userID: getTokenDataFromCookie()?.jti,
       name,
       description,
       isPositive,
@@ -56,6 +61,11 @@ export const Edit: React.FC<EditProps> = ({ categoryId }) => {
       await axios.put(
         `${import.meta.env.VITE_API_URL}/api/v1/Category/${categoryId}`,
         categoryData,
+        {
+          headers: {
+            Authorization: `${getCookie("token")}`,
+          },
+        },
       );
       console.log(categoryData);
       await fetchCategory();

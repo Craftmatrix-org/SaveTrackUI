@@ -10,7 +10,11 @@ import { Account } from "./pages/Dashboard/accounts/page";
 function App() {
   useEffect(() => {
     const interval = setInterval(() => {
-      if (window.location.pathname !== "/" && !getTokenDataFromCookie()) {
+      if (
+        window.location.pathname !== "/" &&
+        window.location.pathname !== "/records" &&
+        !getTokenDataFromCookie()
+      ) {
         window.location.href = "/";
       }
     }, 1000);
