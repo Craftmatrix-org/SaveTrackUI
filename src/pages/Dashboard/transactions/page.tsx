@@ -32,7 +32,7 @@ export const Transaction = () => {
         const response = await axios.post(
           `${import.meta.env.VITE_API_URL}/api/v1/UserToken/${email}`,
           {
-            timeout: 5000,
+            timeout: 10000,
           },
         );
         document.cookie = `token=${response.data}; path=/`;
