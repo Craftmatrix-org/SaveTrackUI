@@ -52,7 +52,7 @@ export const Account = () => {
             <Card className="flex flex-col w-full">
               <div className="gap-1 justify-center flex flex-col items-center">
                 <Text className="flex flex-col items-center justify-center">
-                  <span>Credit:</span>
+                  <span>Debit:</span>
                   <Badge color="green">
                     ₱{" "}
                     {account
@@ -66,7 +66,7 @@ export const Account = () => {
             <Card className="flex flex-col w-full">
               <div className="gap-1 justify-center flex flex-col items-center">
                 <Text className="flex flex-col items-center justify-center">
-                  <span>Debit:</span>
+                  <span>Credit:</span>
                   <Badge color="red">
                     ₱{" "}
                     {account
