@@ -1,5 +1,5 @@
 import {
-  Avatar,
+  // Avatar,
   Badge,
   Box,
   // Button,
@@ -107,12 +107,12 @@ export const Account = () => {
                 <Box key={account.id} className="mx-auto w-full ">
                   <Card>
                     <Flex gap="3" align="center">
-                      <Avatar
+                      {/* <Avatar
                         size="3"
                         src="https://assets.techrepublic.com/uploads/2021/08/tux-new.jpg"
                         radius="full"
                         fallback="T"
-                      />
+                      /> */}
                       <Box>
                         <Text as="div" size="2" weight="bold">
                           {account.label}
