@@ -129,7 +129,7 @@ export const Transaction = () => {
           type="always"
           scrollbars="vertical"
           style={{
-            height: "calc(100vh - 300px)",
+            height: "calc(100vh - 400px)",
             width: "100%",
             marginLeft: "auto",
             marginRight: "auto",
