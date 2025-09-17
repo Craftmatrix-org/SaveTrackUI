@@ -66,7 +66,7 @@ export const Categories = () => {
         type="always"
         scrollbars="vertical"
         style={{
-          height: "calc(100vh - 25px)",
+          height: "calc(100vh - 200px)",
           width: "100%",
           marginLeft: "auto",
           marginRight: "auto",
