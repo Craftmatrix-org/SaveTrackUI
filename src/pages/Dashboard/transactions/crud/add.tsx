@@ -6,6 +6,8 @@ import {
   TextField,
   Select,
   TextArea,
+  Card,
+  SegmentedControl,
 } from "@radix-ui/themes";
 import { useState, useEffect } from "react";
 import { getCookie, getTokenDataFromCookie } from "../../../../api/token";
@@ -14,6 +16,9 @@ import { useSetAtom, useAtom } from "jotai";
 import { AtomFetchTransaction } from "../../../../atom/TransactionAtom";
 import { AtomFetchAccount, AtomAccount } from "../../../../atom/AccountAtom";
 import { AtomFetchCategory, AtomCategory } from "../../../../atom/CategoryAtom";
+import { Deposit } from "./addBundle/deposit";
+import { Transfer } from "./addBundle/transfer";
+import { Widraw } from "./addBundle/widraw";
 
 export type TransactionType = {
   id: string;
@@ -32,6 +37,8 @@ export const Add = () => {
   const fetchCategory = useSetAtom(AtomFetchCategory);
   const [accounts] = useAtom(AtomAccount);
   const [categories] = useAtom(AtomCategory);
+
+  const [transactionType, setTransactionType] = useState("widraw")
 
   const token = getCookie("token");
 
@@ -100,93 +107,114 @@ export const Add = () => {
           Add a new transaction.
         </Dialog.Description>
 
-        <Flex direction="column" gap="3">
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Account ID
-            </Text>
-            <Select.Root
-              defaultValue={accounts[0]?.id ?? ""}
-              onValueChange={(value) =>
-                setTransaction({ ...transaction, accountID: value })
-              }
-            >
-              <Select.Trigger />
-              <Select.Content>
-                <Select.Group>
-                  <Select.Label>Accounts</Select.Label>
-                  {accounts.map((account) => (
-                    <Select.Item key={account.id} value={account.id}>
-                      {account.label}
-                    </Select.Item>
-                  ))}
-                </Select.Group>
-              </Select.Content>
-            </Select.Root>
-          </label>
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Category ID
-            </Text>
-            <Select.Root
-              defaultValue={categories[0]?.id ?? ""}
-              onValueChange={(value) =>
-                setTransaction({ ...transaction, categoryID: value })
-              }
-            >
-              <Select.Trigger />
-              <Select.Content>
-                <Select.Group>
-                  <Select.Label>Categories</Select.Label>
-                  {categories.map((category) => (
-                    <Select.Item key={category.id} value={category.id}>
-                      {category.name}
-                    </Select.Item>
-                  ))}
-                </Select.Group>
-              </Select.Content>
-            </Select.Root>
-          </label>
+        <div className="flex flex-col gap-2">
+          <Card>
+            <SegmentedControl.Root defaultValue="widraw" onValueChange={setTransactionType}>
+              <SegmentedControl.Item value="widraw">Widraw</SegmentedControl.Item>
+              <SegmentedControl.Item value="deposit">Deposit</SegmentedControl.Item>
+              <SegmentedControl.Item value="transfer">Transfer</SegmentedControl.Item>
+            </SegmentedControl.Root>
+          </Card>
 
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Description
-            </Text>
-            <TextArea
-              placeholder="Enter transaction description"
-              onChange={(e) =>
-                setTransaction({ ...transaction, description: e.target.value })
-              }
-            />
-          </label>
-          <label>
-            <Text as="div" size="2" mb="1" weight="bold">
-              Amount
-            </Text>
-            <TextField.Root
-              placeholder="Enter transaction amount"
-              type="number"
-              onChange={(e) =>
-                setTransaction({
-                  ...transaction,
-                  amount: parseFloat(e.target.value),
-                })
-              }
-            />
-          </label>
-        </Flex>
+          <Card>
+            {transactionType == "deposit" && (
+              <Flex>
+                <div>
+                  <Deposit />
+                </div>
+              </Flex>
+            )}
+            {transactionType == "depositx" && (
 
-        <Flex gap="3" mt="4" justify="end">
-          <Dialog.Close>
-            <Button variant="soft" color="gray">
-              Cancel
-            </Button>
-          </Dialog.Close>
-          <Dialog.Close>
-            <Button onClick={handleSave}>Save</Button>
-          </Dialog.Close>
-        </Flex>
+              <Flex direction="column" gap="3">
+                <label>
+                  <Text as="div" size="2" mb="1" weight="bold">
+                    Account ID
+                  </Text>
+                  <Select.Root
+                    defaultValue={accounts[0]?.id ?? ""}
+                    onValueChange={(value) =>
+                      setTransaction({ ...transaction, accountID: value })
+                    }
+                  >
+                    <Select.Trigger />
+                    <Select.Content>
+                      <Select.Group>
+                        <Select.Label>Accounts</Select.Label>
+                        {accounts.map((account) => (
+                          <Select.Item key={account.id} value={account.id}>
+                            {account.label}
+                          </Select.Item>
+                        ))}
+                      </Select.Group>
+                    </Select.Content>
+                  </Select.Root>
+                </label>
+                <label>
+                  <Text as="div" size="2" mb="1" weight="bold">
+                    Category ID
+                  </Text>
+                  <Select.Root
+                    defaultValue={categories[0]?.id ?? ""}
+                    onValueChange={(value) =>
+                      setTransaction({ ...transaction, categoryID: value })
+                    }
+                  >
+                    <Select.Trigger />
+                    <Select.Content>
+                      <Select.Group>
+                        <Select.Label>Categories</Select.Label>
+                        {categories.map((category) => (
+                          <Select.Item key={category.id} value={category.id}>
+                            {category.name}
+                          </Select.Item>
+                        ))}
+                      </Select.Group>
+                    </Select.Content>
+                  </Select.Root>
+                </label>
+
+                <label>
+                  <Text as="div" size="2" mb="1" weight="bold">
+                    Description
+                  </Text>
+                  <TextArea
+                    placeholder="Enter transaction description"
+                    onChange={(e) =>
+                      setTransaction({ ...transaction, description: e.target.value })
+                    }
+                  />
+                </label>
+                <label>
+                  <Text as="div" size="2" mb="1" weight="bold">
+                    Amount
+                  </Text>
+                  <TextField.Root
+                    placeholder="Enter transaction amount"
+                    type="number"
+                    onChange={(e) =>
+                      setTransaction({
+                        ...transaction,
+                        amount: parseFloat(e.target.value),
+                      })
+                    }
+                  />
+                </label>
+              </Flex>
+            )}
+            {transactionType == "widraw" && (
+              <Flex>
+                <Widraw />
+              </Flex>
+            )}
+            {transactionType == "transfer" && (
+              <Flex>
+                <Transfer />
+              </Flex>)
+            }
+          </Card>
+        </div>
       </Dialog.Content>
-    </Dialog.Root>
+    </Dialog.Root >
   );
 };
