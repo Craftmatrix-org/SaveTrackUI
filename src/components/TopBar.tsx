@@ -33,6 +33,13 @@ export const TopBar = () => {
         >
           Account
         </TabNav.Link>
+
+        <TabNav.Link
+          onClick={() => navigate("/settings")}
+          active={firstPath === "settings"}
+        >
+          Settings
+        </TabNav.Link>
         {/* <TabNav.Link
           onClick={() => navigate("/budget")}
           active={firstPath === "budget"}

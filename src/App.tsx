@@ -6,6 +6,7 @@ import { Transaction } from "./pages/Dashboard/transactions/page";
 import Layout from "./custom-component/layout";
 import { Categories } from "./pages/Dashboard/categories/page";
 import { Account } from "./pages/Dashboard/accounts/page";
+import { Settings } from "./pages/Dashboard/settings/page";
 
 function App() {
   useEffect(() => {
@@ -57,6 +58,14 @@ function App() {
             element={
               <Layout>
                 <Account />
+              </Layout>
+            }
+          />
+          <Route
+            path="/settings"
+            element={
+              <Layout>
+                <Settings />
               </Layout>
             }
           />

@@ -34,6 +34,8 @@ export const Dashboard = () => {
           <Tabs.Trigger value="transaction">Transaction</Tabs.Trigger>
           <Tabs.Trigger value="category">Category</Tabs.Trigger>
           <Tabs.Trigger value="account">Account</Tabs.Trigger>
+          <Tabs.Trigger value="settings">Settings</Tabs.Trigger>
+
         </Tabs.List>
 
         <Box pt="3">
@@ -47,6 +49,9 @@ export const Dashboard = () => {
 
           <Tabs.Content value="account">
             <Account />
+          </Tabs.Content>
+          <Tabs.Content value="setting">
+            Account
           </Tabs.Content>
         </Box>
       </Tabs.Root>
