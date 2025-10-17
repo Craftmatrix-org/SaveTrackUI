@@ -16,6 +16,10 @@ function App() {
         window.location.pathname !== "/records" &&
         !getTokenDataFromCookie()
       ) {
+        if (window.location.pathname == "/settings") {
+          window.location.href =
+            "https://bridge.craftmatrix.org/logout?app=savetrack";
+        }
         window.location.href = "/";
       }
     }, 1000);

@@ -7,9 +7,6 @@ export const Settings = () => {
       const name = eqPos > -1 ? cookie.substring(0, eqPos) : cookie;
       document.cookie = name + "=;expires=Thu, 01 Jan 1970 00:00:00 GMT";
     });
-
-    window.location.href =
-      "https://bridge.craftmatrix.org/logout?app=savetrack";
   };
   return (
     <>
