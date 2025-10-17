@@ -23,10 +23,14 @@ export const GatePage = () => {
   };
 
   useEffect(() => {
-    const hash = window.location.hash;
-    if (hash) {
-      const token = new URLSearchParams(hash.substring(1)).get("jwt");
-      alert(token);
+    const params = new URLSearchParams(window.location.search);
+
+    // Extract the 'jwt' query parameter
+    const jwt = params.get("jwt");
+    if (jwt) {
+      alert(jwt);
+    } else {
+      alert("No JWT found in the URL!");
     }
   }, [nav, setEmail]);
 
