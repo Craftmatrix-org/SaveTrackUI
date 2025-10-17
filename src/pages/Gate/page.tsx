@@ -29,6 +29,7 @@ export const GatePage = () => {
     const jwt = params.get("jwt");
     if (jwt) {
       alert(jwt);
+      console.log(jwt);
     } else {
       alert("No JWT found in the URL!");
     }
