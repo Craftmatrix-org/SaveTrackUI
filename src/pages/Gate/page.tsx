@@ -5,16 +5,8 @@ import { useAtom } from "jotai";
 import { AtomEmail } from "../../atom/GateAtom"; // Correct import path
 import { getTokenDataFromCookie } from "../../api/token";
 
-const client_id = import.meta.env.VITE_CLIENT_ID;
-const redirect_uri = window.origin;
-
 export const GatePage = () => {
   const [, setEmail] = useAtom(AtomEmail);
-
-  const getEmail = () => {
-    const authUrl = `https://accounts.google.com/o/oauth2/v2/auth?client_id=${client_id}&redirect_uri=${redirect_uri}&response_type=token&scope=email`;
-    window.location.href = authUrl;
-  };
 
   const nav = useNavigate();
 
@@ -25,23 +17,16 @@ export const GatePage = () => {
     }
   }, [nav, setEmail]);
 
+  const getAccessToken = () => {
+    const redi = "https://bridge.craftmatrix.org/auth/?app=savetrack";
+    window.location.href = redi;
+  };
+
   useEffect(() => {
     const hash = window.location.hash;
     if (hash) {
-      const token = new URLSearchParams(hash.substring(1)).get("access_token");
-      if (token) {
-        fetch(
-          `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${token}`,
-        )
-          .then((response) => response.json())
-          .then((data) => {
-            setEmail(data.email);
-            console.log("Email:", data.email);
-            // alert(data.email);
-            nav("/records");
-          })
-          .catch((error) => console.error("Error fetching email:", error));
-      }
+      const token = new URLSearchParams(hash.substring(1)).get("jwt");
+      alert(token);
     }
   }, [nav, setEmail]);
 
@@ -57,9 +42,8 @@ export const GatePage = () => {
           resources.
         </p>
         <div className="flex flex-col gap-1 p-2">
-          <Button variant="solid" className="mb-2" onClick={getEmail}>
-            Login with Google
-          </Button>
+          <Button onClick={getAccessToken}>Login with Craftmatrix</Button>
+
           <Button variant="outline">
             <a href="/terms-and-conditions">Terms and Conditions</a>
           </Button>
