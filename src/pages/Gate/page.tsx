@@ -28,10 +28,10 @@ export const GatePage = () => {
       if (result.valid) {
         saveTokenToCookie(bearer);
         setEmail(result.email); // optionally store email
-        alert("Token validated and saved!");
+        // alert("Token validated and saved!");
         nav("/records");
       } else {
-        alert("Token invalid!");
+        // alert("Token invalid!");
       }
 
       return result;
