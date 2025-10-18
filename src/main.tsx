@@ -1,13 +1,15 @@
 import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
-import { Theme } from "@radix-ui/themes";
-import App from "./App.tsx";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Login } from "./pages/gate/page";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <Theme accentColor="tomato" radius="small" appearance="dark">
-      <App />
-    </Theme>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Login />} />
+      </Routes>
+    </BrowserRouter>
   </StrictMode>,
 );
