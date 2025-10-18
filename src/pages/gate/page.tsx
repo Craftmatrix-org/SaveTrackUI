@@ -25,7 +25,7 @@ export function Login() {
         });
 
         console.log("Validation success:", response.data);
-        nav(`/auth/${response.data}`);
+        nav(`/auth/${response.data.token}`);
       } catch (error) {
         console.error("Validation failed:", error);
       }
