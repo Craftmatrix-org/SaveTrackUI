@@ -1,5 +1,8 @@
 import { Button } from "@/components/ui/button";
 
 export function Login() {
-  return <Button>Login With Craftmatrix</Button>;
+  const LoginViaCMX = () => {
+    window.location.href = "https://bridge.craftmatrix.org/auth/?app=savetrack";
+  };
+  return <Button onClick={LoginViaCMX}>Login With Craftmatrix</Button>;
 }
