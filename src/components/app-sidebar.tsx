@@ -1,4 +1,4 @@
-import { Calendar, Home, Inbox, Search, Settings } from "lucide-react";
+import { Calendar, Home, Inbox, Search, Settings, Receipt } from "lucide-react";
 import { useLocation, Link } from "react-router-dom";
 
 import {
@@ -16,6 +16,7 @@ const items = [
   { title: "records", url: "/record", icon: Home },
   { title: "category", url: "/category", icon: Inbox },
   { title: "account", url: "/account", icon: Calendar },
+  { title: "bills", url: "/bills", icon: Receipt },
   { title: "chat", url: "/chat", icon: Search },
   { title: "settings", url: "/settings", icon: Settings },
 ];

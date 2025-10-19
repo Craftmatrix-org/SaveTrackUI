@@ -9,6 +9,7 @@ import { Records } from "./pages/Feats/Records/page";
 import Layout from "./pages/templates/layout";
 import { Category } from "./pages/Feats/Category/Category";
 import { Account } from "./pages/Feats/Account/page";
+import { Bills } from "./pages/Feats/Bills/page";
 import { Chat } from "./pages/Feats/Chat/page";
 import { Settings } from "./pages/Feats/Settings/page";
 
@@ -47,6 +48,17 @@ createRoot(document.getElementById("root")!).render(
             <ProtectedRoute>
               <Layout>
                 <Account />
+              </Layout>
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/bills"
+          element={
+            <ProtectedRoute>
+              <Layout>
+                <Bills />
               </Layout>
             </ProtectedRoute>
           }
