@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { getCookie } from "@/lib/token";
+import { useIsMobile } from "@/hooks/use-mobile";
 import type { TransactionItem } from "@/types/transaction";
 import axios from "axios";
 import { useEffect, useState } from "react";
@@ -20,7 +21,7 @@ import {
   Area,
   AreaChart
 } from "recharts";
-import { TrendingUp, TrendingDown, DollarSign, Calendar, ArrowUpDown, Plus } from "lucide-react";
+import { TrendingUp, TrendingDown, DollarSign, Calendar, ArrowUpDown, Plus, Eye, EyeOff } from "lucide-react";
 
 interface ChartData {
   name: string;
@@ -33,8 +34,10 @@ const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042', '#8884d8', '#82ca9d'
 
 export const Records = () => {
   const token = getCookie("token");
+  const isMobile = useIsMobile();
   const [transactions, setTransactions] = useState<TransactionItem[]>([]);
   const [loading, setLoading] = useState(true);
+  const [showAmounts, setShowAmounts] = useState(true);
 
   useEffect(() => {
     if (!token) return;
@@ -116,11 +119,11 @@ export const Records = () => {
   // Recent transactions (last 7 days)
   const recent = transactions
     .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-    .slice(0, 10);
+    .slice(0, isMobile ? 5 : 10);
 
   if (loading) {
     return (
-      <div className="p-4 space-y-4">
+      <div className="space-y-4 mt-4">
         <div className="animate-pulse space-y-4">
           <div className="h-8 bg-gray-200 rounded w-1/3"></div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -135,56 +138,84 @@ export const Records = () => {
   }
 
   return (
-    <div className="p-4 space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Financial Overview</h1>
-        <Button>
-          <Plus className="w-4 h-4 mr-2" />
-          New Transaction
-        </Button>
+    <div className="space-y-6 mt-4">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div>
+          <h1 className="text-2xl font-bold">Financial Overview</h1>
+          <p className="text-muted-foreground">Track your income and expenses</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <Button
+            variant="outline"
+            size={isMobile ? "sm" : "default"}
+            onClick={() => setShowAmounts(!showAmounts)}
+            className="gap-2"
+          >
+            {showAmounts ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+            {showAmounts ? "Hide" : "Show"}
+          </Button>
+          <Button size={isMobile ? "sm" : "default"} className="gap-2">
+            <Plus className="w-4 h-4" />
+            Add Transaction
+          </Button>
+        </div>
       </div>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <Card>
+        <Card className="border-l-4 border-l-green-500">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Income</CardTitle>
             <TrendingUp className="h-4 w-4 text-green-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-green-600">{formatCurrency(totalIncome)}</div>
+            <div className="text-2xl font-bold text-green-600">
+              {showAmounts ? formatCurrency(totalIncome) : "••••••"}
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">
+              +2.5% from last month
+            </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className="border-l-4 border-l-red-500">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Total Expenses</CardTitle>
             <TrendingDown className="h-4 w-4 text-red-600" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold text-red-600">{formatCurrency(totalExpenses)}</div>
+            <div className="text-2xl font-bold text-red-600">
+              {showAmounts ? formatCurrency(totalExpenses) : "••••••"}
+            </div>
+            <p className="text-xs text-muted-foreground mt-1">
+              -1.2% from last month
+            </p>
           </CardContent>
         </Card>
 
-        <Card>
+        <Card className={`border-l-4 ${netBalance >= 0 ? 'border-l-blue-500' : 'border-l-orange-500'}`}>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Net Balance</CardTitle>
-            <DollarSign className={`h-4 w-4 ${netBalance >= 0 ? 'text-green-600' : 'text-red-600'}`} />
+            <DollarSign className={`h-4 w-4 ${netBalance >= 0 ? 'text-blue-600' : 'text-orange-600'}`} />
           </CardHeader>
           <CardContent>
-            <div className={`text-2xl font-bold ${netBalance >= 0 ? 'text-green-600' : 'text-red-600'}`}>
-              {formatCurrency(netBalance)}
+            <div className={`text-2xl font-bold ${netBalance >= 0 ? 'text-blue-600' : 'text-orange-600'}`}>
+              {showAmounts ? formatCurrency(netBalance) : "••••••"}
             </div>
+            <p className="text-xs text-muted-foreground mt-1">
+              Current period balance
+            </p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Charts Section */}
+      {/* Charts Section - Mobile Optimized */}
       <Tabs defaultValue="overview" className="space-y-4">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className={`grid w-full ${isMobile ? 'grid-cols-2' : 'grid-cols-3'}`}>
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="categories">Categories</TabsTrigger>
-          <TabsTrigger value="trends">Trends</TabsTrigger>
+          {!isMobile && <TabsTrigger value="trends">Trends</TabsTrigger>}
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
@@ -194,12 +225,12 @@ export const Records = () => {
               <CardDescription>Compare your income and expenses over time</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-64">
+              <div className={isMobile ? "h-48" : "h-64"}>
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={monthlyChartData}>
                     <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis tickFormatter={(value) => `$${value}`} />
+                    <XAxis dataKey="name" fontSize={isMobile ? 10 : 12} />
+                    <YAxis tickFormatter={(value) => `$${value}`} fontSize={isMobile ? 10 : 12} />
                     <Tooltip formatter={(value) => formatCurrency(Number(value))} />
                     <Bar dataKey="income" fill="#10b981" name="Income" />
                     <Bar dataKey="expenses" fill="#ef4444" name="Expenses" />
@@ -218,7 +249,7 @@ export const Records = () => {
                 <CardDescription>Your spending by category</CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="h-64">
+                <div className={isMobile ? "h-48" : "h-64"}>
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
@@ -226,8 +257,11 @@ export const Records = () => {
                         cx="50%"
                         cy="50%"
                         labelLine={false}
-                        label={({ name, percent }: any) => `${name} ${((percent as number) * 100).toFixed(0)}%`}
-                        outerRadius={80}
+                        label={({ name, percent }: any) => 
+                          isMobile ? `${((percent as number) * 100).toFixed(0)}%` 
+                          : `${name} ${((percent as number) * 100).toFixed(0)}%`
+                        }
+                        outerRadius={isMobile ? 60 : 80}
                         fill="#8884d8"
                         dataKey="value"
                       >
@@ -256,9 +290,11 @@ export const Records = () => {
                           className="w-3 h-3 rounded-full" 
                           style={{ backgroundColor: COLORS[index % COLORS.length] }}
                         />
-                        <span className="text-sm font-medium">{category.name}</span>
+                        <span className="text-sm font-medium truncate max-w-[120px]">{category.name}</span>
                       </div>
-                      <span className="text-sm font-bold">{formatCurrency(category.value)}</span>
+                      <span className="text-sm font-bold">
+                        {showAmounts ? formatCurrency(category.value) : "••••••"}
+                      </span>
                     </div>
                   ))}
                 </div>
@@ -267,61 +303,71 @@ export const Records = () => {
           </div>
         </TabsContent>
 
-        <TabsContent value="trends" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Spending Trend</CardTitle>
-              <CardDescription>Track your spending patterns over time</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="h-64">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={monthlyChartData}>
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis dataKey="name" />
-                    <YAxis tickFormatter={(value) => `$${value}`} />
-                    <Tooltip formatter={(value) => formatCurrency(Number(value))} />
-                    <Area 
-                      type="monotone" 
-                      dataKey="expenses" 
-                      stroke="#ef4444" 
-                      fill="#ef4444" 
-                      fillOpacity={0.3}
-                      name="Expenses"
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
+        {!isMobile && (
+          <TabsContent value="trends" className="space-y-4">
+            <Card>
+              <CardHeader>
+                <CardTitle>Spending Trend</CardTitle>
+                <CardDescription>Track your spending patterns over time</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="h-64">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <AreaChart data={monthlyChartData}>
+                      <CartesianGrid strokeDasharray="3 3" />
+                      <XAxis dataKey="name" />
+                      <YAxis tickFormatter={(value) => `$${value}`} />
+                      <Tooltip formatter={(value) => formatCurrency(Number(value))} />
+                      <Area 
+                        type="monotone" 
+                        dataKey="expenses" 
+                        stroke="#ef4444" 
+                        fill="#ef4444" 
+                        fillOpacity={0.3}
+                        name="Expenses"
+                      />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+        )}
       </Tabs>
 
       {/* Recent Transactions */}
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Calendar className="w-5 h-5" />
-            Recent Transactions
-          </CardTitle>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Calendar className="w-5 h-5" />
+              <CardTitle>Recent Transactions</CardTitle>
+            </div>
+            {!isMobile && (
+              <Button variant="outline" size="sm">
+                View All
+              </Button>
+            )}
+          </div>
           <CardDescription>Your latest financial activity</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="space-y-3">
             {recent.map((transaction) => (
-              <div key={transaction.id} className="flex items-center justify-between p-3 border rounded-lg">
+              <div key={transaction.id} className={`flex items-center justify-between p-3 border rounded-lg ${isMobile ? 'flex-col gap-2' : ''}`}>
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
                     <ArrowUpDown className={`w-4 h-4 ${transaction.isPositive ? 'text-green-600' : 'text-red-600'}`} />
-                    <span className="font-medium">{transaction.description || 'Transaction'}</span>
+                    <span className="font-medium text-sm">{transaction.description || 'Transaction'}</span>
                     <Badge variant="outline" className="text-xs">
                       {transaction.categoryID || 'Uncategorized'}
                     </Badge>
                   </div>
-                  <p className="text-sm text-gray-500">{formatDate(transaction.createdAt)}</p>
+                  <p className="text-xs text-gray-500">{formatDate(transaction.createdAt)}</p>
                 </div>
-                <div className={`font-bold ${transaction.isPositive ? 'text-green-600' : 'text-red-600'}`}>
-                  {transaction.isPositive ? '+' : '-'}{formatCurrency(transaction.amount)}
+                <div className={`font-bold text-sm ${transaction.isPositive ? 'text-green-600' : 'text-red-600'}`}>
+                  {transaction.isPositive ? '+' : '-'}
+                  {showAmounts ? formatCurrency(transaction.amount) : "••••••"}
                 </div>
               </div>
             ))}

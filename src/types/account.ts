@@ -7,4 +7,5 @@ export type AccountItem = {
   createdAt: string;
   updatedAt: string;
   total: number;
+  type?: string;
 };

@@ -19,7 +19,7 @@ export const Auth = () => {
     if (token) {
       nav("/record");
     }
-  }, []); // runs once after mount
+  }, [nav]); // runs once after mount
 
   return <div>Param: {value}</div>;
 };
