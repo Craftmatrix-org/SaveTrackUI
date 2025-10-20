@@ -22,8 +22,8 @@ export const Account = () => {
           },
         );
         setAccount(response.data);
-      } catch (err) {
-        console.log("wow");
+      } catch (error) {
+        console.error("Failed to fetch accounts:", error);
       }
     };
     getData();
