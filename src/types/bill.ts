@@ -27,7 +27,6 @@ export interface CreateBillRequest {
   isRecurring: boolean;
   recurringType?: 'monthly' | 'weekly' | 'yearly' | 'custom';
   recurringInterval?: number;
-  accountId: number;
 }
 
 export interface UpdateBillRequest extends CreateBillRequest {

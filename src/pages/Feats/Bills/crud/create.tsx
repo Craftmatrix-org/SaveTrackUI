@@ -8,39 +8,50 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Plus } from "lucide-react";
 import { getCookie } from "@/lib/token";
-import type { CreateBillRequest, BillItem } from "@/types/bill";
-import type { AccountItem } from "@/types/account";
+import type { BillItem } from "@/types/bill";
 import axios from "axios";
 
 interface CreateBillProps {
   onBillCreated: (bill: BillItem) => void;
-  accounts: AccountItem[];
 }
 
-export const CreateBill = ({ onBillCreated, accounts }: CreateBillProps) => {
+export const CreateBill = ({ onBillCreated }: CreateBillProps) => {
   const token = getCookie("token");
   const [open, setOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [formData, setFormData] = useState<CreateBillRequest>({
+  const [formData, setFormData] = useState({
     title: "",
     description: "",
     amount: 0,
     dueDate: "",
     category: "",
     isRecurring: false,
-    recurringType: "monthly",
+    recurringType: "monthly" as 'monthly' | 'weekly' | 'yearly' | 'custom',
     recurringInterval: 1,
-    accountId: 0,
   });
 
   const handleSubmit = async () => {
-    if (!token || !formData.title || !formData.amount || !formData.dueDate || !formData.accountId) return;
+    if (!token || !formData.title || !formData.amount || !formData.dueDate) return;
     
     setIsLoading(true);
     try {
+      // Convert frontend format to backend format
+      const billData = {
+        name: formData.title,
+        notes: formData.description,
+        amount: formData.amount,
+        dueDate: formData.dueDate,
+        status: "pending",
+        currency: "USD",
+        isRecurring: formData.isRecurring,
+        recurrenceType: formData.isRecurring ? formData.recurringType : undefined,
+        recurrenceInterval: formData.isRecurring ? formData.recurringInterval : undefined,
+        autoRemind: true,
+      };
+
       const response = await axios.post<BillItem>(
         `${import.meta.env.VITE_API_URL}/api/v2/Bill`,
-        formData,
+        billData,
         {
           headers: {
             Authorization: `${token}`,
@@ -58,7 +69,6 @@ export const CreateBill = ({ onBillCreated, accounts }: CreateBillProps) => {
         isRecurring: false,
         recurringType: "monthly",
         recurringInterval: 1,
-        accountId: 0,
       });
       setOpen(false);
     } catch (error) {
@@ -127,21 +137,7 @@ export const CreateBill = ({ onBillCreated, accounts }: CreateBillProps) => {
             />
           </div>
 
-          <div>
-            <Label htmlFor="account">Account</Label>
-            <Select onValueChange={(value) => setFormData({ ...formData, accountId: parseInt(value) })}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select account" />
-              </SelectTrigger>
-              <SelectContent>
-                {accounts.map((account) => (
-                  <SelectItem key={account.id} value={account.id.toString()}>
-                    {account.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+
 
           <div>
             <Label htmlFor="description">Description (Optional)</Label>

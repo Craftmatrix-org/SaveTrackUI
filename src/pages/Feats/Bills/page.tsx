@@ -3,7 +3,6 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { getCookie } from "@/lib/token";
 import type { BillItem } from "@/types/bill";
-import type { AccountItem } from "@/types/account";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { CreateBill } from "./crud/create";
@@ -12,7 +11,6 @@ import { Calendar, Clock, AlertTriangle, CheckCircle, DollarSign } from "lucide-
 export const Bills = () => {
   const token = getCookie("token");
   const [bills, setBills] = useState<BillItem[]>([]);
-  const [accounts, setAccounts] = useState<AccountItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -20,16 +18,11 @@ export const Bills = () => {
     
     const fetchData = async () => {
       try {
-        const [billsResponse, accountsResponse] = await Promise.all([
-          axios.get<BillItem[]>(`${import.meta.env.VITE_API_URL}/api/v2/Bill`, {
-            headers: { Authorization: `${token}` },
-          }),
-          axios.get<AccountItem[]>(`${import.meta.env.VITE_API_URL}/api/v2/Account`, {
-            headers: { Authorization: `${token}` },
-          }),
-        ]);
+        const billsResponse = await axios.get<BillItem[]>(`${import.meta.env.VITE_API_URL}/api/v2/Bill`, {
+          headers: { Authorization: `${token}` },
+        });
+
         setBills(billsResponse.data);
-        setAccounts(accountsResponse.data);
       } catch (error) {
         console.error("Failed to fetch data:", error);
       } finally {
@@ -130,7 +123,7 @@ export const Bills = () => {
         </div>
       </div>
 
-      <CreateBill onBillCreated={handleBillCreated} accounts={accounts} />
+      <CreateBill onBillCreated={handleBillCreated} />
 
       {/* Overdue Bills */}
       {overdueBills.length > 0 && (
